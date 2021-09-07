@@ -1,0 +1,10 @@
+/target
+.settings
+.classpath
+.project
+.idea
+sonar-project.properties
+/bin/
+/src/main/main.iml
+/src/test/test.iml
+*.iml
