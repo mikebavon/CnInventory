@@ -7,12 +7,12 @@
 
   <servlet>
     <servlet-name>Item</servlet-name>
-    <servlet-class>com.cohort.Item</servlet-class>
+    <servlet-class>com.cohort.action.ItemAction</servlet-class>
   </servlet>
 
   <servlet>
     <servlet-name>ItemCategory</servlet-name>
-    <servlet-class>com.cohort.ItemCategory</servlet-class>
+    <servlet-class>com.cohort.action.ItemCategoryAction</servlet-class>
   </servlet>
 
   <servlet-mapping>
