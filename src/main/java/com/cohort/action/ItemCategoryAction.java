@@ -3,19 +3,13 @@ package com.cohort.action;
 import com.cohort.model.ItemCategory;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemCategoryAction implements Servlet {
-    public void init(ServletConfig config) throws ServletException {
-
-    }
-
-    public ServletConfig getServletConfig() {
-        return null;
-    }
+public class ItemCategoryAction extends HttpServlet {
 
     public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
 
@@ -53,11 +47,4 @@ public class ItemCategoryAction implements Servlet {
         display.print("</html>");
     }
 
-    public String getServletInfo() {
-        return null;
-    }
-
-    public void destroy() {
-
-    }
 }
