@@ -11,6 +11,10 @@ import java.util.List;
 
 public class ItemCategoryAction extends HttpServlet {
 
+    public void init(){
+        System.out.println("Item Action Servlet is Loaded & Instatiated");
+    }
+
     public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
 
         List<ItemCategory> categories = new ArrayList<ItemCategory>();

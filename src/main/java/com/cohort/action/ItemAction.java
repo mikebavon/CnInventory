@@ -14,6 +14,10 @@ import java.util.List;
 
 public class ItemAction extends HttpServlet {
 
+    public void init(){
+        System.out.println("Item Action Servlet is Loaded & Instatiated");
+    }
+
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         PrintWriter display = res.getWriter();
@@ -93,4 +97,10 @@ public class ItemAction extends HttpServlet {
         display.print("</html>");
 
     }
+
+    @Override
+    public void destroy() {
+        System.out.println("Killing servlet....");
+    }
+
 }
