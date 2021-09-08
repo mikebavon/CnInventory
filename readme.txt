@@ -6,3 +6,7 @@
     3. Init method is inside in each servet is called/executed; done once; (Start server/deploying the application to the server)
     4. service method of each servelet will executed upon request(only method of a servlet that is called mutliple times on lifespan of servlet)
     5. Servlet is destroyed( Shutting down application server/ on undeploying the application from the server)
+
+
+    Web.xml - Deployment Descriptor
+    describing how java web application is deployed in the web container/web server

@@ -36,6 +36,10 @@ public class ItemCategoryAction extends HttpServlet {
                 + "</head>");
         display.print("<body>");
 
+        display.print("Application Version" + req.getServletContext().getInitParameter("Application Version") + "<br>");
+        display.print("Application Country" + req.getServletContext().getInitParameter("Built Country") + "<br>");
+        display.print("Application Country " + getServletConfig().getInitParameter("Built Continent") + "<br>");
+
         display.print("Item Categories<br/>");
         display.print("<table>");
         display.print("<th>Name</th>");

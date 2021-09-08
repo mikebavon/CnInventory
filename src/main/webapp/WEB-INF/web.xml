@@ -5,9 +5,38 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
 
+  <context-param>
+    <param-name>Application Name</param-name>
+    <param-value>Inventory Management System : Cohort 9</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>Application Version</param-name>
+    <param-value>1.0.0</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>Built Country</param-name>
+    <param-value>Kenya</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>database-name</param-name>
+    <param-value>invetory</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>database-pwd</param-name>
+    <param-value>inventory123</param-value>
+  </context-param>
+
   <servlet>
     <servlet-name>Item</servlet-name>
     <servlet-class>com.cohort.action.ItemAction</servlet-class>
+    <init-param>
+      <param-name>Page Name</param-name>
+      <param-value>Item Catalog</param-value>
+    </init-param>
   </servlet>
 
   <servlet>

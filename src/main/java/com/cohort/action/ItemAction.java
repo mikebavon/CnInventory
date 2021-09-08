@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 public class ItemAction extends HttpServlet {
@@ -43,8 +44,14 @@ public class ItemAction extends HttpServlet {
         + "</style>"
         + "</head>");
         display.print("<body>");
+        display.print("<h1>" + req.getServletContext().getInitParameter("Application Name") + "</h1></br>");
+        display.print("Version " + req.getServletContext().getInitParameter("Application Version") + "</br>");
+        display.print("&nbsp");
+        display.print("</br>");
+        display.print("</br>");
+        display.print(getServletConfig().getInitParameter("Page Name") + "</br>");
 
-        display.print("<h2>HTML Forms</h2>\n"
+        display.print("<h3>Add Item</h3>\n"
             + "\n"
             + "<form action=\"./item\" method=\"POST\">\n");
 
@@ -73,12 +80,20 @@ public class ItemAction extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
+    @SuppressWarnings("rawtypes")
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         List<Item> items = new ArrayList<Item>();
         for (int x = 0; x<5; x++) {
             items.add(new Item(req.getParameter("name" + x), new BigDecimal(req.getParameter("purchasePrice" + x)),
                 new BigDecimal(req.getParameter("salePrice" + x))));
+        }
+
+        Enumeration params = req.getParameterNames();
+
+        while(params.hasMoreElements()){
+            String paramName = (String) params.nextElement();
+            System.out.println(paramName + "=" + req.getParameter(paramName));
         }
 
         PrintWriter display = res.getWriter();
@@ -94,8 +109,14 @@ public class ItemAction extends HttpServlet {
         + "</style>"
         + "</head>");
         display.print("<body>");
+        display.print("<h1>" + req.getServletContext().getInitParameter("Application Name") + "</h1></br>");
+        display.print("Version " + req.getServletContext().getInitParameter("Application Version") + "</br>");
+        display.print("&nbsp");
+        display.print("</br>");
+        display.print("</br>");
+        display.print(getServletConfig().getInitParameter("Page Name") + "</br>");
 
-        display.print("Items<br/>");
+        display.print("<h3>Item List</h3><br/>");
         display.print("<table>");
         display.print("<th>Item</th>");
         display.print("<th>Purchase Price</th>");
