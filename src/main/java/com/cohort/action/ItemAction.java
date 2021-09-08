@@ -14,10 +14,20 @@ import java.util.List;
 
 public class ItemAction extends HttpServlet {
 
+    /**
+     * called on server/web container start up or on the first time a Servlet is created
+     */
     public void init(){
         System.out.println("Item Action Servlet is Loaded & Instatiated");
     }
 
+    /**
+     * Handles GET request, called when the page is loaded first, because the loading a page is a get request on http
+     * @param req
+     * @param res
+     * @throws ServletException
+     * @throws IOException
+     */
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         PrintWriter display = res.getWriter();
@@ -56,6 +66,13 @@ public class ItemAction extends HttpServlet {
 
     }
 
+    /**
+     * Handles POST request, called/executed when submitting a form through post method
+     * @param req
+     * @param res
+     * @throws ServletException
+     * @throws IOException
+     */
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         List<Item> items = new ArrayList<Item>();
@@ -98,6 +115,9 @@ public class ItemAction extends HttpServlet {
 
     }
 
+    /**
+     * called when the server/web container is shutdown or a application is undeployed from the server/web container
+     */
     @Override
     public void destroy() {
         System.out.println("Killing servlet....");
