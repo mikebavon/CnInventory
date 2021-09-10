@@ -42,7 +42,7 @@ public class ItemFormAction extends HttpServlet {
 
         display.print("<h3>Add Item</h3><form action=\"./item\" method=\"POST\">\n");
 
-        for (int cnt = 0; cnt<5; cnt++) {
+        for (int cnt = 0; cnt<3; cnt++) {
 
             display.print("<hr/>");
             display.print("  <label for=\"fname\">Item Name" + (cnt+1) + ":</label><br>\n"

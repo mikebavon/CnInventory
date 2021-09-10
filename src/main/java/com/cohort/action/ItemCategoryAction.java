@@ -1,5 +1,6 @@
 package com.cohort.action;
 
+import com.cohort.model.Item;
 import com.cohort.model.ItemCategory;
 
 import javax.servlet.*;
@@ -47,6 +48,17 @@ public class ItemCategoryAction extends HttpServlet {
         for (ItemCategory category : categories){
             display.print("<tr>");
             display.print("<td>" + category.getName() + "</td>");
+            display.print("</tr>");
+        }
+
+        List<Item> items = new ArrayList<Item>();
+        items.addAll((List<Item>) req.getServletContext().getAttribute("defaultItems"));
+
+        for (Item item : items){
+            display.print("<tr>");
+            display.print("<td>" + item.getName() + "</td>");
+            display.print("<td>" + item.getPurchasePrice() + "</td>");
+            display.print("<td>" + item.getSalePrice() + "</td>");
             display.print("</tr>");
         }
 

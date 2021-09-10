@@ -98,4 +98,9 @@
     <url-pattern>/itemcategory</url-pattern>
   </servlet-mapping>
 
+  <!-- Listeners -->
+  <listener>
+    <listener-class>com.cohort.util.AppBootstrapListener</listener-class>
+  </listener>
+
 </web-app>

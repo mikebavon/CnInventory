@@ -24,7 +24,7 @@ public class ItemSaveAction extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         List<Item> items = new ArrayList<Item>();
-        for (int x = 0; x<5; x++) {
+        for (int x = 0; x<3; x++) {
             items.add(new Item(req.getParameter("name" + x), new BigDecimal(req.getParameter("purchasePrice" + x)),
                 new BigDecimal(req.getParameter("salePrice" + x))));
         }

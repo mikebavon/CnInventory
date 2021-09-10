@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemListAction extends HttpServlet {
@@ -47,7 +48,9 @@ public class ItemListAction extends HttpServlet {
         display.print("<th>Purchase Price</th>");
         display.print("<th>Selling Price</th>");
 
-        List<Item> items = (List<Item>) req.getAttribute("Items");
+        List<Item> items = new ArrayList<Item>();
+        items.addAll((List<Item>) req.getServletContext().getAttribute("defaultItems"));
+        items.addAll((List<Item>) req.getAttribute("Items"));
 
         for (Item item : items){
             display.print("<tr>");

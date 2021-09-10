@@ -13,7 +13,7 @@ Important classes/Interface
      HttpServletResponse (ServletResponse) - object created web container on servlet request, data bound to the object for accessing
      ServletConfig - it allow to access to access and manipulate servlet attributes - each servlet has its on ServletConfig,
         it is not system wide
-     ServletContext - it allow to access to access system/application wide attributes -
+     ServletContext - it allow to access system/application wide attributes -
         only created once, at start/deployment of the application
      RequestDispatcher - Interface defines how page request/response is going handler, it can done two ways:
         1. include - if Page X include Page Y, page Y will be execute and the process of execution will be returned to page X,
@@ -56,3 +56,12 @@ to access servlet specific init params use:
 
 to access context params params use:
  getServletContext().getInitParameter("Param Name");
+
+Event & Listener
+    - Event - Occurrence of something in lifecycle of a servlet, servlet initialization, request, creation of servlet,
+        destruction of servlet
+    - Listener - Is an observer of event to do something else.
+    - Event & Listeners work together
+
+    Common Listeners
+        ServletContextListener
