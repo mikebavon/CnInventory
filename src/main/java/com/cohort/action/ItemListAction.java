@@ -44,7 +44,6 @@ public class ItemListAction extends HttpServlet {
             throwables.printStackTrace();
         }
 
-
         PrintWriter display = res.getWriter();
         display.print("<html>");
         display.print("<head>"
