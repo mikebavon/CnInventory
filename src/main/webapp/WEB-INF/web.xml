@@ -40,6 +40,24 @@
   </servlet>
 
   <servlet>
+    <servlet-name>ItemList</servlet-name>
+    <servlet-class>com.cohort.action.ItemListAction</servlet-class>
+    <init-param>
+      <param-name>Page Name</param-name>
+      <param-value>Item Catalog</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet>
+    <servlet-name>ItemAdd</servlet-name>
+    <servlet-class>com.cohort.action.ItemAddAction</servlet-class>
+    <init-param>
+      <param-name>Page Name</param-name>
+      <param-value>Item Catalog</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet>
     <servlet-name>ItemCategory</servlet-name>
     <servlet-class>com.cohort.action.ItemCategoryAction</servlet-class>
   </servlet>
@@ -47,6 +65,16 @@
   <servlet-mapping>
     <servlet-name>Item</servlet-name>
     <url-pattern>/item</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>ItemList</servlet-name>
+    <url-pattern>/item/list</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>ItemAdd</servlet-name>
+    <url-pattern>/item/add</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
