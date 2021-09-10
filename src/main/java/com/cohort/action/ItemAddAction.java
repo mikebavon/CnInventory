@@ -39,25 +39,6 @@ public class ItemAddAction extends HttpServlet {
         }
 
         PrintWriter display = res.getWriter();
-        display.print("<html>");
-        display.print("<head>"
-                + "<style>"
-                + "table, th, td {"
-                + "  border: 1px solid black;"
-                + "  width: 100%;"
-                + "  border-collapse: collapse;"
-                + "  background-color: #96D4D4;"
-                + "}"
-                + "</style>"
-                + "</head>");
-        display.print("<body>");
-        display.print("<h1>" + req.getServletContext().getInitParameter("Application Name") + "</h1></br>");
-        display.print("Version " + req.getServletContext().getInitParameter("Application Version") + "</br>");
-        display.print("&nbsp");
-        display.print("</br>");
-        display.print("</br>");
-        display.print(getServletConfig().getInitParameter("Page Name") + "</br>");
-
         display.print("<h3>Item List</h3><br/>");
         display.print("<table>");
         display.print("<th>Item</th>");
@@ -73,8 +54,7 @@ public class ItemAddAction extends HttpServlet {
         }
 
         display.print("</table>");
-        display.print("</body>");
-        display.print("</html>");
+
 
     }
 }

@@ -16,8 +16,9 @@ Important classes/Interface
  ServletContext - it allow to access to access system/application wide attributes -
     only created once, at start/deployment of the application
  RequestDispatcher - Interface defines how page request/response is going handler, it can done two ways:
-    1. include - if Page X include Page Y, then content of page Y will "be appended" on Page X, page gives the response back..
-    2. forward
+    1. include - if Page X include Page Y, page Y will be execute and the process of execution will be returned to page X,
+       after which page X continues to execute.
+    2. forward - if Page X forwarding to Page Y, page Y will be execute and will not return the process of execution to page X,
 
 web.xml (Is a deployment descriptor) - simply defines how a web application is deployed in a web container/web server
 
