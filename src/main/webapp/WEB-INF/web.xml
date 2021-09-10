@@ -39,6 +39,7 @@
     </init-param>
   </servlet>
 
+  <!-- Servlets  -->
   <servlet>
     <servlet-name>ItemList</servlet-name>
     <servlet-class>com.cohort.action.ItemListAction</servlet-class>
@@ -49,8 +50,17 @@
   </servlet>
 
   <servlet>
-    <servlet-name>ItemAdd</servlet-name>
-    <servlet-class>com.cohort.action.ItemAddAction</servlet-class>
+    <servlet-name>ItemForm</servlet-name>
+    <servlet-class>com.cohort.action.ItemFormAction</servlet-class>
+    <init-param>
+      <param-name>Page Name</param-name>
+      <param-value>Item Catalog</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet>
+    <servlet-name>ItemSave</servlet-name>
+    <servlet-class>com.cohort.action.ItemSaveAction</servlet-class>
     <init-param>
       <param-name>Page Name</param-name>
       <param-value>Item Catalog</param-value>
@@ -62,6 +72,7 @@
     <servlet-class>com.cohort.action.ItemCategoryAction</servlet-class>
   </servlet>
 
+  <!-- Servlets Mappings  -->
   <servlet-mapping>
     <servlet-name>Item</servlet-name>
     <url-pattern>/item</url-pattern>
@@ -73,8 +84,13 @@
   </servlet-mapping>
 
   <servlet-mapping>
-    <servlet-name>ItemAdd</servlet-name>
-    <url-pattern>/item/add</url-pattern>
+    <servlet-name>ItemForm</servlet-name>
+    <url-pattern>/item/form</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>ItemSave</servlet-name>
+    <url-pattern>/item/save</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
