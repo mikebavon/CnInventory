@@ -8,6 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +26,24 @@ public class ItemListAction extends HttpServlet {
      * @throws IOException
      */
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+
+        List<Item> items = new ArrayList<Item>();
+        Connection conn = (Connection) req.getServletContext().getAttribute("mysqlConn");
+
+        try {
+            PreparedStatement statement = conn.prepareStatement("select * from items");
+            ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()){
+                items.add(new Item((String)resultSet.getString("name"),
+                    (BigDecimal) resultSet.getBigDecimal("purchase_price"),
+                    (BigDecimal) resultSet.getBigDecimal("sale_price")));
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
 
         PrintWriter display = res.getWriter();
         display.print("<html>");
@@ -47,10 +70,6 @@ public class ItemListAction extends HttpServlet {
         display.print("<th>Item</th>");
         display.print("<th>Purchase Price</th>");
         display.print("<th>Selling Price</th>");
-
-        List<Item> items = new ArrayList<Item>();
-        items.addAll((List<Item>) req.getServletContext().getAttribute("defaultItems"));
-        items.addAll((List<Item>) req.getAttribute("Items"));
 
         for (Item item : items){
             display.print("<tr>");
