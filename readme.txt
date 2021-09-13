@@ -19,6 +19,7 @@ Important classes/Interface
         1. include - if Page X include Page Y, page Y will be execute and the process of execution will be returned to page X,
            after which page X continues to execute.
         2. forward - if Page X forwarding to Page Y, page Y will be execute and will not return the process of execution to page X,
+    HttpSession
 
 web.xml (Is a deployment descriptor) - simply defines how a web application is deployed in a web container/web server
     describing how java web application is deployed in the web container/web server

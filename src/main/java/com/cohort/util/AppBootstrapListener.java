@@ -10,7 +10,7 @@ public class AppBootstrapListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory", "root", "Okello3477#*");
+            Connection conn = DbUtil.getInstance().getConnection();
 
             this.createDbTables(conn);
             ServletContext sc = sce.getServletContext();

@@ -35,10 +35,13 @@ public class ItemFormAction extends HttpServlet {
         display.print("<body>");
         display.print("<h1>" + req.getServletContext().getInitParameter("Application Name") + "</h1></br>");
         display.print("Version " + req.getServletContext().getInitParameter("Application Version") + "</br>");
+        display.print("USER: " + req.getSession().getAttribute("USER_NAME") + "</br>");
+        display.print("USER EMAIL: " + req.getSession().getAttribute("email") + "</br>");
         display.print("&nbsp");
         display.print("</br>");
         display.print("</br>");
         display.print(getServletConfig().getInitParameter("Page Name") + "</br>");
+        display.print(req.getAttribute("urlIntercept") + "</br>");
 
         display.print("<h3>Add Item</h3><form action=\"./item\" method=\"POST\">\n");
 
