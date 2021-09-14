@@ -1,19 +1,19 @@
 package com.cohort.util;
 
-import org.apache.commons.dbcp2.BasicDataSource;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class DbUtil {
 
     private static DbUtil ds;
 
     //private BasicDataSource mysqlDs =  new BasicDataSource();
-    private BasicDataSource mysqlDs =  new BasicDataSource();
+    private ComboPooledDataSource mysqlDs =  new ComboPooledDataSource();
 
     private DbUtil(){
-        mysqlDs.setUrl("jdbc:mysql://localhost:3306/inventory");
-        mysqlDs.setUsername("root");
+        mysqlDs.setJdbcUrl("jdbc:mysql://localhost:3306/inventory");
+        mysqlDs.setUser("root");
         mysqlDs.setPassword("Okello3477#*");
-        mysqlDs.setInitialSize(10);
+        mysqlDs.setInitialPoolSize(10);
     }
 
     public static DbUtil getInstance(){
@@ -23,11 +23,11 @@ public class DbUtil {
         return ds;
     }
 
-    public BasicDataSource getMysqlDs() {
+    public ComboPooledDataSource getMysqlDs() {
         return mysqlDs;
     }
 
-    public void setMysqlDs(BasicDataSource mysqlDs) {
+    public void setMysqlDs(ComboPooledDataSource mysqlDs) {
         this.mysqlDs = mysqlDs;
     }
 }
