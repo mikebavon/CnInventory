@@ -1,6 +1,7 @@
 package com.cohort.action;
 
 import com.cohort.model.ItemCategory;
+import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebInitParam;
@@ -96,12 +97,15 @@ public class ItemCategoryAction extends HttpServlet {
 
         if (conn != null) {
             try {
+                ItemCategory category = new ItemCategory();
+                BeanUtils.populate(category, req.getParameterMap());
+
                 PreparedStatement statement = conn.prepareStatement("insert into item_categories(name) values (?)");
-                statement.setString(1, req.getParameter("name"));
+                statement.setString(1, category.getName());
                 statement.executeUpdate();
 
-            } catch (SQLException throwables) {
-                System.out.println("Not inserted: " + throwables.getMessage());
+            } catch (Exception ex) {
+                System.out.println("Not inserted: " + ex.getMessage());
             }
 
         } else {

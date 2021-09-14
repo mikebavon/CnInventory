@@ -2,6 +2,8 @@ package com.cohort.model;
 
 public class ItemCategory {
 
+    public ItemCategory(){}
+
     public ItemCategory(String name){
         this.name = name;
     }

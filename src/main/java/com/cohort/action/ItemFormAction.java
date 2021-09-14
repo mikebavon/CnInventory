@@ -50,22 +50,16 @@ public class ItemFormAction extends HttpServlet {
         display.print("</br>");
         display.print("</br>");
         display.print(getServletConfig().getInitParameter("Page Name") + "</br>");
-        display.print(req.getAttribute("urlIntercept") + "</br>");
+        //display.print(req.getAttribute("urlIntercept") + "</br>");
 
         display.print("<h3>Add Item</h3><form action=\"./item\" method=\"POST\">\n");
-
-        for (int cnt = 0; cnt<3; cnt++) {
-
-            display.print("<hr/>");
-            display.print("  <label for=\"fname\">Item Name" + (cnt+1) + ":</label><br>\n"
-                + "  <input type=\"text\" id=\"name" + cnt + "\" name=\"name" + cnt + "\"><br>\n"
-                + "  <label for=\"lname\">Purchase Price:</label><br>\n"
-                + "  <input type=\"text\" id=\"purchasePrice" + cnt + "\" name=\"purchasePrice" + cnt + "\"><br><br>\n"
-
-                + "  <label for=\"lname\">Selling Price:</label><br>\n"
-                + "  <input type=\"text\" id=\"salePrice" + cnt + "\" name=\"salePrice" + cnt + "\"><br><br>\n");
-        }
-
+        display.print("<hr/>");
+        display.print("  <label for=\"fname\">Item Name:</label><br>\n"
+            + "  <input type=\"text\" id=\"name\" name=\"name\"><br>\n"
+            + "  <label for=\"lname\">Purchase Price:</label><br>\n"
+            + "  <input type=\"text\" id=\"purchasePrice\" name=\"purchasePrice\"><br><br>\n"
+            + "  <label for=\"lname\">Selling Price:</label><br>\n"
+            + "  <input type=\"text\" id=\"salePrice\" name=\"salePrice\"><br><br>\n");
 
         display.print("<input type=\"submit\" value=\"Submit\"></form></body></html>");
 

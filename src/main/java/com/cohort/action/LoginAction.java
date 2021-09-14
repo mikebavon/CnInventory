@@ -2,6 +2,8 @@ package com.cohort.action;
 
 import com.cohort.bean.LoginBean;
 import com.cohort.bean.LoginBeanI;
+import com.cohort.model.Login;
+import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
@@ -24,7 +26,6 @@ import java.util.Random;
 public class LoginAction extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{
-
         PrintWriter display = res.getWriter();
         display.print("<html>");
         display.print("<head>"
@@ -53,11 +54,13 @@ public class LoginAction extends HttpServlet {
 
         display.print("  <label for=\"fname\">Username:</label><br>\n"
             + "  <input type=\"text\" id=\"username\" name=\"username\"><br>\n"
-            + "  <label for=\"lname\">Purchase Price:</label><br>\n"
+            + "  <label for=\"lname\">Password:</label><br>\n"
             + "  <input type=\"password\" id=\"password\" name=\"password\"><br><br>\n");
 
 
         display.print("<input type=\"submit\" value=\"Login\"></form></body></html>");
+
+        req.getSession().invalidate();
 
     }
 
@@ -67,11 +70,12 @@ public class LoginAction extends HttpServlet {
         LoginBeanI loginBean = new LoginBean();
 
         try {
-            String email = req.getParameter("username");
+            Login login = new Login();
+            BeanUtils.populate(login, req.getParameterMap());
 
-            if (loginBean.checkUser(email, req.getParameter("password"))) {
+            if (loginBean.checkUser(login)) {
                 session.setAttribute("session-id", new Random().nextInt());
-                session.setAttribute("email", email);
+                session.setAttribute("email", login.getUsername());
                 session.setAttribute("USER_NAME", "MIKE BAVON");
                 res.sendRedirect("./item");
 

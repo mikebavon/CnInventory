@@ -2,11 +2,9 @@ package com.cohort.util;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
-import javax.sql.DataSource;
-
 public class DbUtil {
 
-    private static DataSource ds;
+    private static DbUtil ds;
 
     private MysqlDataSource mysqlDs =  new MysqlDataSource();
 
@@ -17,9 +15,9 @@ public class DbUtil {
 
     }
 
-    public static DataSource getInstance(){
+    public static DbUtil getInstance(){
         if (ds == null)
-            ds = new DbUtil().getMysqlDs();
+            ds = new DbUtil();
 
         return ds;
     }

@@ -34,7 +34,7 @@ public class ItemListAction extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         List<Item> items = new ArrayList<Item>();
         Connection conn = (Connection) req.getServletContext().getAttribute("mysqlConn");
@@ -76,6 +76,7 @@ public class ItemListAction extends HttpServlet {
         display.print(getServletConfig().getInitParameter("Page Name") + "</br>");
 
         display.print("<h3>Item List</h3><br/>");
+        display.print("<a href=\"../item\">Add Item</a><br/>");
         display.print("<table>");
         display.print("<th>Item</th>");
         display.print("<th>Purchase Price</th>");
