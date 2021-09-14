@@ -1,18 +1,19 @@
 package com.cohort.util;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 public class DbUtil {
 
     private static DbUtil ds;
 
-    private MysqlDataSource mysqlDs =  new MysqlDataSource();
+    //private BasicDataSource mysqlDs =  new BasicDataSource();
+    private BasicDataSource mysqlDs =  new BasicDataSource();
 
     private DbUtil(){
         mysqlDs.setUrl("jdbc:mysql://localhost:3306/inventory");
-        mysqlDs.setUser("root");
+        mysqlDs.setUsername("root");
         mysqlDs.setPassword("Okello3477#*");
-
+        mysqlDs.setInitialSize(10);
     }
 
     public static DbUtil getInstance(){
@@ -22,11 +23,11 @@ public class DbUtil {
         return ds;
     }
 
-    public MysqlDataSource getMysqlDs() {
+    public BasicDataSource getMysqlDs() {
         return mysqlDs;
     }
 
-    public void setMysqlDs(MysqlDataSource mysqlDs) {
+    public void setMysqlDs(BasicDataSource mysqlDs) {
         this.mysqlDs = mysqlDs;
     }
 }
