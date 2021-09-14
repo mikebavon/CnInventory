@@ -3,6 +3,8 @@ package com.cohort.action;
 import com.cohort.model.ItemCategory;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +17,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@WebServlet(
+    name="ItemCategory",
+    urlPatterns = "/itemcategory",
+    initParams = {
+        @WebInitParam(name = "Page Name", value = "Item Catalog")
+    }
+)
 public class ItemCategoryAction extends HttpServlet {
 
     public void init(){

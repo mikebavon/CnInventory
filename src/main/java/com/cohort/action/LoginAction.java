@@ -4,6 +4,8 @@ import com.cohort.bean.LoginBean;
 import com.cohort.bean.LoginBeanI;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +14,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
 
+@WebServlet(
+    name="Login",
+    urlPatterns = "/login",
+    initParams = {
+        @WebInitParam(name = "Page Name", value = "Item Catalog")
+    }
+)
 public class LoginAction extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{

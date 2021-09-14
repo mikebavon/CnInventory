@@ -3,8 +3,10 @@ package com.cohort.util;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 import java.sql.*;
 
+@WebListener
 public class AppBootstrapListener implements ServletContextListener {
 
     public void contextInitialized(ServletContextEvent sce) {

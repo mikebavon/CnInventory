@@ -2,11 +2,20 @@ package com.cohort.action;
 
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebInitParam;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet(
+    name="Item",
+    urlPatterns = "/item",
+    initParams = {
+        @WebInitParam(name = "Page Name", value = "Item Catalog")
+    }
+)
 public class ItemAction extends HttpServlet {
 
     /**
