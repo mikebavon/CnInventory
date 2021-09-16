@@ -66,3 +66,64 @@ Event & Listener
 
     Common Listeners
         ServletContextListener
+
+
+Configuring Datasource in wildfly
+
+A) Adding Driver(Jar file) In Wildfly and configuring it as a module
+    1. Change directory to
+        Wildfly Root Directory->module->system->layers->base->com
+
+    2. Create a folder called sql - this folder where will be creating and saving all sql(mysql, postegres, oracle, mssql) connection
+    3. Change directory to the created sql folder
+    4. Create specific db folder in this we are mysql folder
+    5. change directory to mysql folder
+    6. Create folder called main(must called main)
+    7. Change directory to main folder created
+    8. Copy database driver to the main directory (the driver is a .jar file)
+    9. Still inside main directory create a file called module.xml, and copy the contents below
+
+        <?xml version="1.0" encoding="UTF-8"?>
+        <module xmlns="urn:jboss:module:1.1" name="com.sql.mysql">
+          <resources>
+             <resource-root path="mysql-connector-java-5.1.39-bin.jar"/>
+          </resources>
+          <dependencies>
+             <module name="javax.api"/>
+          </dependencies>
+        </module>
+
+B) Configuring module as a driver in standalone.xml
+    1. In the subsystem of datasource, under <drivers> tag add driver configuration
+        <driver name="mysql" module="rdbms">
+            <xa-datasource-class>com.mysql.jdbc.Driver</xa-datasource-class>
+        </driver>
+
+        or
+
+        <driver name="mysql" module="rdbms">
+            <xa-datasource-class>com.mysql.cj.jdbc.Driver</xa-datasource-class>
+        </driver>
+
+        or
+
+        <driver name="mysql" module="com.mysql">
+            <xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
+        </driver>
+
+    2. Configure datasource with jndi and db url, and password under the <datasources> tag
+
+        <datasource jndi-name="java:jboss/datasources/CnInventory" pool-name="CnInventory" enabled="true" use-java-context="true">
+            <connection-url>jdbc:mysql://localhost:3306/inventory?useSSL=false</connection-url>
+            <driver>mysql</driver>
+            <security>
+                <user-name>db_user</user-name>
+                <password>db_password</password>
+            </security>
+        </datasource>
+
+
+
+
+
+
