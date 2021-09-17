@@ -186,7 +186,8 @@ public class index_jsp extends HttpServlet{
         (v) expression - print out <%= value %> - basically prints out values
 
 2. IMPLICIT OBJECTS
-    Objects that are automatically created at point where JSP is translated to Servlet
+    Objects that are automatically created at point where JSP is translated to Servlet, and available for use in jsp as a
+    already variable
     examples of implicit objects
         out = JspWriter which equivalent to PrintWriter acquired through HttpResponse->getWriter();
         request	HttpServletRequest
