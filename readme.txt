@@ -90,6 +90,7 @@ A) Adding Driver(Jar file) In Wildfly and configuring it as a module
           </resources>
           <dependencies>
              <module name="javax.api"/>
+             <module name="javax.transaction.api"/>
           </dependencies>
         </module>
 
@@ -104,6 +105,13 @@ B) Configuring module as a driver in standalone.xml
         <driver name="mysql" module="rdbms">
             <xa-datasource-class>com.mysql.cj.jdbc.Driver</xa-datasource-class>
         </driver>
+
+        or
+
+        <driver name="mysql" module="com.mysql">
+            <xa-datasource-class>com.mysql.cj.jdbc.MysqlXADataSource</xa-datasource-class>
+        </driver>
+
 
         or
 

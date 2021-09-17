@@ -12,7 +12,7 @@ public class AppBootstrapListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
 
         try {
-            Connection conn = DbUtil.getInstance().getMysqlDs().getConnection();
+            Connection conn = DbUtil.getInstance().getDataSource().getConnection();
 
             this.createDbTables(conn);
             ServletContext sc = sce.getServletContext();

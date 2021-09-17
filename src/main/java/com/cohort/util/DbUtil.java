@@ -2,18 +2,24 @@ package com.cohort.util;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 public class DbUtil {
 
     private static DbUtil ds;
 
-    //private BasicDataSource mysqlDs =  new BasicDataSource();
-    private ComboPooledDataSource mysqlDs =  new ComboPooledDataSource();
+    private DataSource dataSource;
 
     private DbUtil(){
-        mysqlDs.setJdbcUrl("jdbc:mysql://localhost:3306/inventory");
-        mysqlDs.setUser("root");
-        mysqlDs.setPassword("Okello3477#*");
-        mysqlDs.setInitialPoolSize(10);
+        try {
+            InitialContext ictx = new InitialContext();
+            dataSource = (DataSource) ictx.lookup("java:jboss/datasources/CnInventory");
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
     }
 
     public static DbUtil getInstance(){
@@ -23,11 +29,11 @@ public class DbUtil {
         return ds;
     }
 
-    public ComboPooledDataSource getMysqlDs() {
-        return mysqlDs;
+    public DataSource getDataSource() {
+        return dataSource;
     }
 
-    public void setMysqlDs(ComboPooledDataSource mysqlDs) {
-        this.mysqlDs = mysqlDs;
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }
