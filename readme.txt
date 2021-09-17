@@ -25,10 +25,10 @@ web.xml (Is a deployment descriptor) - simply defines how a web application is d
     describing how java web application is deployed in the web container/web server
 
 Life Cycle of Servlet
-    1. Web Container (wildfly) Loads all servelt to jvm; done once (Start Server/deploying the application to the server)
+    1. Web Container (wildfly) Loads all servlet to jvm; done once (Start Server/deploying the application to the server)
     2. Web Container creates instance of the servlet; done once (Start server/deploying the application to the server)
     3. Init method is inside in each servet is called/executed; done once; (Start server/deploying the application to the server)
-    4. service method of each servelet will executed upon request(only method of a servlet that is called mutliple times on lifespan of servlet)
+    4. Service method of each servlet will executed upon request(only method of a servlet that is called mutliple times on lifespan of servlet)
     5. Servlet is destroyed( Shutting down application server/ on undeploying the application from the server)
 
 //maps servlet
@@ -129,6 +129,74 @@ B) Configuring module as a driver in standalone.xml
                 <password>db_password</password>
             </security>
         </datasource>
+
+JSP Summarized notes
+
+JSP (Java Server Pages) - java code inside HTML, unlike servlet is html inside java code
+jsp is a file with extension .jsp
+
+Life Cycle JSP FILE
+
+In web container
+index.jsp->index_jsp.java->index_jsp.class
+hello.jsp->hello_jsp.java->hello_jsp.class
+
+index.jsp
+<html>
+    <head></head>
+    <body>
+    <h2>Cohort Nine Inventory Management System</h2>
+    </body>
+</html>
+
+1. Jsp Translation to java class which extends HttpServlet, making it a servlet
+index_jsp.java
+public class index_jsp extends HttpServlet{
+
+    public void _jspInit(){
+
+    }
+
+    public void _jspService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        PrintWriter print = response.getWriter();
+        print.print("<html>");
+        print.print("<head></head>");
+        print.print("<body>");
+        print.print("<h2>Cohort Nine Inventory Management System</h2>");
+        print.print("</body>");
+        print.print("<html>");
+
+    }
+
+    public void _jspDestroy(){
+
+    }
+}
+
+2. SCRIPTING ELEMENTS
+    - tag element in jsp page that allows inclusion of java code inside html, <% java code %>
+    - types tags:
+        (i) Comment <%-- comments %>
+        (ii) Directive <%@ directive name=""... %>, they are three types of directives
+            a) page directive e.g import
+            b) include directive
+            3) taglib directive
+        (iii) Declaration <%! declaration %> - used for class wide variable,method declaration.
+        (iv) Scriptlet - java code <% java code %>
+        (v) expression - print out <%= value %> - basically prints out values
+
+2. IMPLICIT OBJECTS
+    Objects that are automatically created at point where JSP is translated to Servlet
+    examples of implicit objects
+        out = JspWriter which equivalent to PrintWriter acquired through HttpResponse->getWriter();
+        request	HttpServletRequest
+        response	HttpServletResponse
+        config	ServletConfig
+        application	ServletContext
+        session	HttpSession
+        pageContext	PageContext
+        page	Object
+        exception	Throwable
 
 
 

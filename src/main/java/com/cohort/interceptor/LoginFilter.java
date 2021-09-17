@@ -28,7 +28,11 @@ public class LoginFilter implements Filter {
 
             if (servletPath.equals("/login"))
                 chain.doFilter(request, response);
-            else
+            else if (servletPath.equals("/index.jsp")){
+                chain.doFilter(request, response);
+                response.getWriter().flush();
+
+            }else
                 ((HttpServletResponse) response).sendRedirect("http://localhost:8080/CnInventory/login");
 
         }else{

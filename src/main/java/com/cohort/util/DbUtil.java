@@ -1,7 +1,5 @@
 package com.cohort.util;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
