@@ -1,4 +1,3 @@
-<%@ page import="com.cohort.view.HomePage" %>
 <html>
     <head>
         <style>
@@ -11,14 +10,25 @@
         </style>
     </head>
     <body>
-        <h2><%= HomePage.homePageMsg() %></h2>
-        <h1><%= application.getInitParameter("Application Name") %></h1></br>
-        Version <%= application.getInitParameter("Application Version") %></h1></br>
+        <% if(session.getAttribute("userType") == "ADMIN"){ %>
+            what is happening.....
+            <jsp:include page="header.jsp">
+                <jsp:param name="pageName" value="SIGN IN" />
+            </jsp:include>
+
+        <% } else { %>
+
+            <jsp:include page="general_header.jsp">
+                <jsp:param name="pageName" value="SIGN IN" />
+            </jsp:include>
+
+        <% } %>
+
         &nbsp
         </br></br>
         <h3>Login</h3>
         <hr/>
-        <form action="./login" method="POST">
+        <form action="./showlogin.jsp" method="POST">
 
         <%
             String sessionMsg = (String) session.getAttribute("LOGIN_MSG");
@@ -28,8 +38,10 @@
 
         <label for="fname">Username:</label><br>
         <input type="text" id="username" name="username"><br>
-        <label for="lname">Password:</label><br>
+        <label for="password">Password:</label><br>
         <input type="password" id="password" name="password"><br><br>
+        <label for="userType">Password:</label><br>
+        <input type="text" id="userType" name="userType"><br><br>
 
         <input type="submit" value="Login">
         </form>

@@ -199,6 +199,26 @@ public class index_jsp extends HttpServlet{
         page	Object
         exception	Throwable
 
+JSP ACTIONS
+ - standard tags that is part of jsp, used to element a lot java code/scriptlets in jsp file
+ - jsp standard tags starts with jsp: prefix
+ - Major tags use in jsp action
+    1) jsp:include
+    2) jsp:forward
+    3) jsp:param
+
+    4) jsp:useBean
+    5) jsp:setProperty
+    6) jsp:getProperty
+
+    7) jsp:attribute
+    8) jsp:plugin
+
+Bean Is a java class with the following characteristics
+    1. Must have non argument constructor.
+    2. Must have implement Serializable
+    3. Must have private properties with getters and setters to modify the properties
+
 
 
 

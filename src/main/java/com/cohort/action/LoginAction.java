@@ -3,6 +3,7 @@ package com.cohort.action;
 import com.cohort.bean.LoginBean;
 import com.cohort.bean.LoginBeanI;
 import com.cohort.model.Login;
+import com.cohort.model.UserType;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.ServletException;
@@ -32,6 +33,14 @@ public class LoginAction extends HttpServlet {
         try {
             Login login = new Login();
             BeanUtils.populate(login, req.getParameterMap());
+
+            if (login.getUserTypeStr() != null){
+                try {
+                    login.setUserType(UserType.valueOf(login.getUserTypeStr().trim().toUpperCase()));
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
 
             if (loginBean.checkUser(login)) {
                 session.setAttribute("session-id", new Random().nextInt());
