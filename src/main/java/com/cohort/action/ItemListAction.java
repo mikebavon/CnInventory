@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,55 +43,19 @@ public class ItemListAction extends HttpServlet {
             ResultSet resultSet = statement.executeQuery();
 
             while(resultSet.next()){
-                items.add(new Item((String)resultSet.getString("name"),
+                items.add(new Item((String)  resultSet.getString("name"),
                     (BigDecimal) resultSet.getBigDecimal("purchase_price"),
                     (BigDecimal) resultSet.getBigDecimal("sale_price")));
             }
+
+            req.getSession().setAttribute("items", items);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
-        PrintWriter display = res.getWriter();
-        display.print("<html>");
-        display.print("<head>"
-                + "<style>"
-                + "table, th, td {"
-                + "  border: 1px solid black;"
-                + "  width: 100%;"
-                + "  border-collapse: collapse;"
-                + "  background-color: #96D4D4;"
-                + "}"
-                + "</style>"
-                + "</head>");
-        display.print("<body>");
-        display.print("<h1>" + req.getServletContext().getInitParameter("Application Name") + "</h1></br>");
-        display.print("Version " + req.getServletContext().getInitParameter("Application Version") + "</br>");
-        display.print("USER: " + req.getSession().getAttribute("USER_NAME") + "</br>");
-        display.print("USER EMAIL: " + req.getSession().getAttribute("email") + "</br>");
-        display.print("&nbsp");
-        display.print("</br>");
-        display.print("</br>");
-        display.print(getServletConfig().getInitParameter("Page Name") + "</br>");
+        res.sendRedirect("../item.jsp");
 
-        display.print("<h3>Item List</h3><br/>");
-        display.print("<a href=\"../item\">Add Item</a><br/>");
-        display.print("<table>");
-        display.print("<th>Item</th>");
-        display.print("<th>Purchase Price</th>");
-        display.print("<th>Selling Price</th>");
-
-        for (Item item : items){
-            display.print("<tr>");
-            display.print("<td>" + item.getName() + "</td>");
-            display.print("<td>" + item.getPurchasePrice() + "</td>");
-            display.print("<td>" + item.getSalePrice() + "</td>");
-            display.print("</tr>");
-        }
-
-        display.print("</table>");
-        display.print("</body>");
-        display.print("</html>");
-
+        return;
     }
 }

@@ -219,6 +219,48 @@ Bean Is a java class with the following characteristics
     2. Must have implement Serializable
     3. Must have private properties with getters and setters to modify the properties
 
+Expression Language (EL)
+- simplify data access from bean and implicit objects
+- EL syntax ${expression}
+    ${param.name}
+    ${sessionScope.user}
+    ${sessionScope.user.name}
+    ${sessionScope.user.address.phoneNo}
+    ${sessionScope["user"]["address"]["phoneNo"]}
+
+    ${param["name"]}
+
+Uses EL
+    1. Set attributes value
+        <jsp:include page="${sessionScope.userPage}">
+
+    2. Uses in jsp:setProperty
+        <jsp:setProperty name="login" property="username" value="${usernameInThisPage}" />
+
+EL implicit
+    1. param - ServletRequest.getParameter
+    2. sessionScope - HttpSession
+    3. initParam
+    4. applicationScope - ServletContext
+
+Mathematical expression
+    1. +,-,*,/
+
+Logical Decision Structures
+ == is eq
+ > is gt
+ < is lt
+ >= is ge
+ <= is le
+ && is and
+ ! is not
+ || is or
+
+
+
+
+
+
 
 
 

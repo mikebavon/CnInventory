@@ -1,3 +1,4 @@
+<%@ page isELIgnored="false" %>
 <html>
     <head>
         <style>
@@ -10,38 +11,24 @@
         </style>
     </head>
     <body>
-        <% if(session.getAttribute("userType") == "ADMIN"){ %>
-            what is happening.....
-            <jsp:include page="header.jsp">
-                <jsp:param name="pageName" value="SIGN IN" />
-            </jsp:include>
-
-        <% } else { %>
-
-            <jsp:include page="general_header.jsp">
-                <jsp:param name="pageName" value="SIGN IN" />
-            </jsp:include>
-
-        <% } %>
+        <jsp:include page="general_header.jsp">
+            <jsp:param name="pageName" value="SIGN IN" />
+        </jsp:include>
 
         &nbsp
         </br></br>
         <h3>Login</h3>
         <hr/>
-        <form action="./showlogin.jsp" method="POST">
+        <form action="./login" method="POST">
 
-        <%
-            String sessionMsg = (String) session.getAttribute("LOGIN_MSG");
-            if (sessionMsg != null)
-                out.print("ERROR: " + sessionMsg + "<BR/>");
-        %>
+        ${sessionScope.LOGIN_MSG}
 
         <label for="fname">Username:</label><br>
         <input type="text" id="username" name="username"><br>
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password"><br><br>
-        <label for="userType">Password:</label><br>
-        <input type="text" id="userType" name="userType"><br><br>
+        <label for="userTypeStr">User Type:</label><br>
+        <input type="text" id="userTypeStr" name="userTypeStr"><br><br>
 
         <input type="submit" value="Login">
         </form>

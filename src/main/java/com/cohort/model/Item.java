@@ -52,4 +52,14 @@ public class Item implements Serializable {
     public void setSalePrice(BigDecimal salePrice) {
         this.salePrice = salePrice;
     }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", purchasePrice=" + purchasePrice +
+                ", salePrice=" + salePrice +
+                '}';
+    }
 }

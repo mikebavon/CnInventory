@@ -49,7 +49,7 @@ public class LoginAction extends HttpServlet {
                 res.sendRedirect("./item");
 
             }else {
-                session.setAttribute("LOGIN_MSG", "Invalid Login Details");
+                session.setAttribute("LOGIN_MSG", "ERROR: Invalid Login Details<BR/>");
                 res.sendRedirect("./index.jsp");
             }
 
