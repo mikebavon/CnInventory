@@ -38,7 +38,7 @@ public class LoginAction extends HttpServlet {
                 try {
                     login.setUserType(UserType.valueOf(login.getUserTypeStr().trim().toUpperCase()));
                 }catch (Exception ex){
-                    ex.printStackTrace();
+                    System.out.println(ex.getMessage());
                 }
             }
 

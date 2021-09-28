@@ -60,4 +60,15 @@ public class Login implements Serializable {
     public void setUserType(UserType userType) {
         this.userType = userType;
     }
+
+    @Override
+    public String toString() {
+        return "Login{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", otp='" + otp + '\'' +
+                ", userTypeStr='" + userTypeStr + '\'' +
+                ", userType=" + userType +
+                '}';
+    }
 }

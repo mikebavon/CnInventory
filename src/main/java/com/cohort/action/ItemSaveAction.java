@@ -39,7 +39,8 @@ public class ItemSaveAction extends HttpServlet {
                 BeanUtils.populate(item, req.getParameterMap());
 
             }catch (Exception ex){
-                System.out.println(ex.getMessage());
+                //System.out.println(ex.getMessage());
+                ex.printStackTrace();
                 item = null;
             }
 
@@ -48,10 +49,11 @@ public class ItemSaveAction extends HttpServlet {
                 return;
             }
 
-
+        System.out.println("1... getting connection..");
             Connection conn = (Connection) req.getServletContext().getAttribute("mysqlConn");
 
             if (conn != null) {
+                System.out.println("2...connected...");
                 try {
                     PreparedStatement statement = conn.prepareStatement("insert into items(name,purchase_price,sale_price) values (?,?,?)");
                     statement.setString(1, item.getName());
@@ -60,6 +62,7 @@ public class ItemSaveAction extends HttpServlet {
                     statement.executeUpdate();
 
                 } catch (SQLException throwables) {
+                    throwables.printStackTrace();
                     RequestDispatcher requestDispatcher = req.getRequestDispatcher("/item/form");
                     requestDispatcher.forward(req, res);
 

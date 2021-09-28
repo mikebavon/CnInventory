@@ -1,4 +1,9 @@
 <%@ page isELIgnored="false" %>
+<%@ taglib prefix="victor" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="tfn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="tsql" uri="http://java.sun.com/jsp/jstl/sql" %>
+<%@ taglib prefix="txml" uri="http://java.sun.com/jsp/jstl/xml" %>
 <html>
     <head>
         <style>
@@ -21,7 +26,26 @@
         <hr/>
         <form action="./login" method="POST">
 
-        ${sessionScope.LOGIN_MSG}
+        <victor:if test="${tfn:containsIgnoreCase(sessionScope.LOGIN_MSG, 'ERROR') }" var="errorFound">
+            ERROR TO BE PRINTED<br/>
+        </victor:if>
+        ${errorFound}<br/>
+
+        <victor:set var="marks" value="${2*40}" />
+
+        <victor:choose>
+            <victor:when test="${ marks gt 50 and marks lt 80}">
+                PASSED<BR>
+            </victor:when>
+            <victor:when test="${ marks lt 50}">
+                FAILED<BR>
+            </victor:when>
+            <victor:otherwise>
+                EXCELLENT<BR>
+            </victor:otherwise>
+        </victor:choose>
+
+        ${sessionScope.LOGIN_MSG}<br/>
 
         <label for="fname">Username:</label><br>
         <input type="text" id="username" name="username"><br>

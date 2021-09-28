@@ -256,6 +256,39 @@ Logical Decision Structures
  ! is not
  || is or
 
+JSTL Tags
+    - ready made tags that replaces scriplets, use taglibs access jstl tags
+
+To use the taglibs, you need two dependencies
+    -jstl.jar
+    -standard.jar - taglib
+
+   taglibs categories
+    -core
+    -formating
+    -sql
+    -functions
+    -xml
+
+Core Taglibs
+ <c:out> attributes value, escapeXml
+ <c:set> attributes var,value,target,property,scope
+ <c:if>
+ <c:forEach>
+ <c:chose> <c:when> <c:otherwise>
+
+functions Taglibs
+   <fn:contains()>
+   <fn:containsIgnoreCase()>
+   <fn:trim()>
+   <fn:split()>
+   <fn:join()>
+   <fn:length()>
+   <fn:toUpperCase()>
+   <fn:toLowerCase()>
+
+
+
 
 
 

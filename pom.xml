@@ -46,6 +46,23 @@
       <version>0.9.5.5</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl-api -->
+    <dependency>
+      <groupId>javax.servlet.jsp.jstl</groupId>
+      <artifactId>jstl-api</artifactId>
+      <version>1.2</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.taglibs/taglibs-standard-impl -->
+    <dependency>
+      <groupId>org.apache.taglibs</groupId>
+      <artifactId>taglibs-standard-impl</artifactId>
+      <version>1.2.5</version>
+      <scope>runtime</scope>
+    </dependency>
+
+
+
   </dependencies>
   <build>
     <finalName>CnInventory</finalName>

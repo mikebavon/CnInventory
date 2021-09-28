@@ -2,6 +2,7 @@ package com.cohort.bean;
 
 import com.cohort.model.Login;
 
+
 public class LoginBean implements  LoginBeanI{
 
     private static final String USERNAME = "john.doe@email.com";
