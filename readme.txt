@@ -288,6 +288,20 @@ functions Taglibs
    <fn:toLowerCase()>
 
 
+//===== javascript summary notes ====
+javascript is not type strict
+Objects
+
+1. Using function
+    function Student(){
+    }
+
+    var student = new Student();
+
+2. using javascript literals
+    var student = {};
+
+
 
 
 
