@@ -13,6 +13,71 @@
             border-collapse: collapse;
             background-color: #96D4D4;
         }
+
+        * {
+          box-sizing: border-box;
+        }
+
+        input[type=text], select, textarea {
+          width: 100%;
+          padding: 12px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          resize: vertical;
+        }
+
+        label {
+          padding: 12px 12px 12px 0;
+          display: inline-block;
+        }
+
+        input[type=submit] {
+          background-color: #4CAF50;
+          color: white;
+          padding: 12px 20px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          float: right;
+        }
+
+        input[type=submit]:hover {
+          background-color: #45a049;
+        }
+
+        .container {
+          border-radius: 5px;
+          background-color: #f2f2f2;
+          padding: 20px;
+        }
+
+        .col-25 {
+          float: left;
+          width: 25%;
+          margin-top: 6px;
+        }
+
+        .col-75 {
+          float: left;
+          width: 75%;
+          margin-top: 6px;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+
+        /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+        @media screen and (max-width: 600px) {
+          .col-25, .col-75, input[type=submit] {
+            width: 100%;
+            margin-top: 0;
+          }
+        }
+
         </style>
     </head>
     <body>
@@ -24,8 +89,6 @@
         </br></br>
         <h3>Login</h3>
         <hr/>
-        <form action="./login" method="POST">
-
         <victor:if test="${tfn:containsIgnoreCase(sessionScope.LOGIN_MSG, 'ERROR') }" var="errorFound">
             ERROR TO BE PRINTED<br/>
         </victor:if>
@@ -47,54 +110,113 @@
 
         ${sessionScope.LOGIN_MSG}<br/>
 
-        <label for="fname">Username:</label><br>
-        <input type="text" id="username" name="username"><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br><br>
-        <label for="userTypeStr">User Type:</label><br>
-        <input type="text" id="userTypeStr" name="userTypeStr"><br><br>
+        <div id="loginForm" class="container"></div>
+        <div id="customerForm" class="container"></div>
+        <div id="registerUser" class="container"></div>
 
-        <input type="submit" value="Login">
-        </form>
-        <% session.invalidate(); %>
-
-        <div id="printStudentName"></div>
-        <div id="printStudentAge"></div>
-        <div id="printStudentAddress"></div>
         <script>
+            var appComponents = {
+                htmlForm:{
+                    formCmp:{},
+                    render: function(newFormCmp){
+                        this.formCmp = newFormCmp;
 
-            var student = {
-                name: "John Doe",
-                age: 19,
-                setName: function(newName){
-                    this.name = newName;
+                        var formToRender = '<h2>' + this.formCmp.formTitle + '</h2>';
 
-                },
-                printName: function(){
-                   document.getElementById("printStudentName").innerHTML = this.name + " is " + this.gender;
+                        formToRender += '<form action="' + this.formCmp.url + '" method="' + this.formCmp.method + '">';
 
-                },
-                address: {
-                    location: "Loitotok",
-                    postalAddress: "P.O BOX 23232",
-                    phoneNumber: "0700 000 000",
-                    printAddress: function(){
-                        document.getElementById("printStudentAddress").innerHTML = this.location + ", " + this.postalAddress;
+                        this.formCmp.items.forEach(item=>{
+                            formToRender += '<label for="' + item.id +'">' + item.label + ':</label><br>'
+                             +'<input type="' + item.type + '" id="' + item.id +'" name="' + item.name + '"><br>';
+                        });
+
+                        formToRender += '<input type="' + this.formCmp.submitBtn.type + '" value="' + this.formCmp.submitBtn.value + '"></form>';
+
+                        console.log(formToRender);
+                        document.getElementById(this.formCmp.renderId).innerHTML = formToRender;
+
                     }
                 }
             };
 
-            student.gender = "Male";
+            // login form
+            appComponents.htmlForm.render({
+                 url: "./login",
+                 method: "POST",
+                 formTitle: 'Login',
+                 renderId: "loginForm",
+                 items: [{
+                    label: "Username",
+                    name: "username",
+                    id: "username",
+                    type: "text"
+                },{
+                    label: "Password",
+                    name: "password",
+                    id: "password",
+                    type: "password"
+                },{
+                    label: "User Type",
+                    name: "userTypeStr",
+                    id: "userTypeStr",
+                    type: "text"
+                }],
+                submitBtn: {
+                    type: 'submit',
+                    value: 'Login'
+                }
+            });
 
-            student.printAge = function(){
-                document.getElementById("printStudentAge").innerHTML = "<br/> The age of " + this.name + " is " + this.age;
-            }
+            //customer form
+            appComponents.htmlForm.render({
+                 url: "./saveCustomer",
+                 method: "POST",
+                 formTitle: 'Create Customer',
+                 renderId: "customerForm",
+                 items: [{
+                    label: "Customer Name",
+                    name: "customer",
+                    id: "customer",
+                    type: "text"
+                },{
+                    label: "Customer Address",
+                    name: "address",
+                    id: "customer_address",
+                    type: "text"
+                }],
+                submitBtn: {
+                    type: 'submit',
+                    value: 'Save Customer'
+                }
+            });
 
-            student.setName("Jane Doe");
-            student.printName();
-            student.printAge();
-            student.address.printAddress();
+            //register user
+            appComponents.htmlForm.render({
+                 url: "./register",
+                 method: "POST",
+                 formTitle: 'Register User',
+                 renderId: "registerUser",
+                 items: [{
+                    label: "Full Names",
+                    name: "fullName",
+                    id: "fullName",
+                    type: "text"
+                },{
+                    label: "Email",
+                    name: "email",
+                    id: "email",
+                    type: "text"
+                }],
+                submitBtn: {
+                    type: 'submit',
+                    value: 'Register'
+                }
+            });
 
         </script>
+
+        <% session.invalidate(); %>
         </body>
 </html>
+
+

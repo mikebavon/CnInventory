@@ -26,9 +26,10 @@ public class LoginFilter implements Filter {
         if (session.isNew()){
             session.invalidate();
 
-            if (servletPath.equals("/login") || servletPath.equals("/showlogin.jsp"))
+            if (servletPath.equals("/login") || servletPath.equals("/showlogin.jsp") || servletPath.contains("/js/")) {
+                System.out.println(servletPath);
                 chain.doFilter(request, response);
-            else if (servletPath.equals("/index.jsp")){
+            }else if (servletPath.equals("/index.jsp")){
                 chain.doFilter(request, response);
                 response.getWriter().flush();
 
