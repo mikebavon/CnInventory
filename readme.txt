@@ -301,6 +301,8 @@ Objects
 2. using javascript literals
     var student = {};
 
+3. this, prototype, call, apply, bind ===== .....
+
 
 
 

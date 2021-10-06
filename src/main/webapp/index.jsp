@@ -94,127 +94,21 @@
         </victor:if>
         ${errorFound}<br/>
 
-        <victor:set var="marks" value="${2*40}" />
-
-        <victor:choose>
-            <victor:when test="${ marks gt 50 and marks lt 80}">
-                PASSED<BR>
-            </victor:when>
-            <victor:when test="${ marks lt 50}">
-                FAILED<BR>
-            </victor:when>
-            <victor:otherwise>
-                EXCELLENT<BR>
-            </victor:otherwise>
-        </victor:choose>
-
         ${sessionScope.LOGIN_MSG}<br/>
 
-        <div id="loginForm" class="container"></div>
-        <div id="customerForm" class="container"></div>
-        <div id="registerUser" class="container"></div>
+        <div id="componentRender" class="container"></div>
 
-        <script>
-            var appComponents = {
-                htmlForm:{
-                    formCmp:{},
-                    render: function(newFormCmp){
-                        this.formCmp = newFormCmp;
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <button onclick="appComponents.htmlTable()">Click me</button>
+        <div id="showItems"></div>
 
-                        var formToRender = '<h2>' + this.formCmp.formTitle + '</h2>';
-
-                        formToRender += '<form action="' + this.formCmp.url + '" method="' + this.formCmp.method + '">';
-
-                        this.formCmp.items.forEach(item=>{
-                            formToRender += '<label for="' + item.id +'">' + item.label + ':</label><br>'
-                             +'<input type="' + item.type + '" id="' + item.id +'" name="' + item.name + '"><br>';
-                        });
-
-                        formToRender += '<input type="' + this.formCmp.submitBtn.type + '" value="' + this.formCmp.submitBtn.value + '"></form>';
-
-                        console.log(formToRender);
-                        document.getElementById(this.formCmp.renderId).innerHTML = formToRender;
-
-                    }
-                }
-            };
-
-            // login form
-            appComponents.htmlForm.render({
-                 url: "./login",
-                 method: "POST",
-                 formTitle: 'Login',
-                 renderId: "loginForm",
-                 items: [{
-                    label: "Username",
-                    name: "username",
-                    id: "username",
-                    type: "text"
-                },{
-                    label: "Password",
-                    name: "password",
-                    id: "password",
-                    type: "password"
-                },{
-                    label: "User Type",
-                    name: "userTypeStr",
-                    id: "userTypeStr",
-                    type: "text"
-                }],
-                submitBtn: {
-                    type: 'submit',
-                    value: 'Login'
-                }
-            });
-
-            //customer form
-            appComponents.htmlForm.render({
-                 url: "./saveCustomer",
-                 method: "POST",
-                 formTitle: 'Create Customer',
-                 renderId: "customerForm",
-                 items: [{
-                    label: "Customer Name",
-                    name: "customer",
-                    id: "customer",
-                    type: "text"
-                },{
-                    label: "Customer Address",
-                    name: "address",
-                    id: "customer_address",
-                    type: "text"
-                }],
-                submitBtn: {
-                    type: 'submit',
-                    value: 'Save Customer'
-                }
-            });
-
-            //register user
-            appComponents.htmlForm.render({
-                 url: "./register",
-                 method: "POST",
-                 formTitle: 'Register User',
-                 renderId: "registerUser",
-                 items: [{
-                    label: "Full Names",
-                    name: "fullName",
-                    id: "fullName",
-                    type: "text"
-                },{
-                    label: "Email",
-                    name: "email",
-                    id: "email",
-                    type: "text"
-                }],
-                submitBtn: {
-                    type: 'submit',
-                    value: 'Register'
-                }
-            });
-
-        </script>
-
+        <script src="js/app.js"></script>
+        <script src="js/login.js"></script>
+        <script src="js/items.js"></script>
         <% session.invalidate(); %>
         </body>
 </html>

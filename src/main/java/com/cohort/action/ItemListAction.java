@@ -1,6 +1,7 @@
 package com.cohort.action;
 
 import com.cohort.model.Item;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
@@ -48,14 +49,12 @@ public class ItemListAction extends HttpServlet {
                     (BigDecimal) resultSet.getBigDecimal("sale_price")));
             }
 
-            req.getSession().setAttribute("items", items);
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
-        res.sendRedirect("../item.jsp");
+        ObjectMapper mapper = new ObjectMapper();
+        res.getWriter().print(mapper.writeValueAsString(items));
 
-        return;
     }
 }
