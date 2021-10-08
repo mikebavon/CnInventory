@@ -1,9 +1,5 @@
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="victor" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="tfn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="tsql" uri="http://java.sun.com/jsp/jstl/sql" %>
-<%@ taglib prefix="txml" uri="http://java.sun.com/jsp/jstl/xml" %>
 <html>
     <head>
         <style>
@@ -89,26 +85,12 @@
         </br></br>
         <h3>Login</h3>
         <hr/>
-        <victor:if test="${tfn:containsIgnoreCase(sessionScope.LOGIN_MSG, 'ERROR') }" var="errorFound">
-            ERROR TO BE PRINTED<br/>
-        </victor:if>
-        ${errorFound}<br/>
 
-        ${sessionScope.LOGIN_MSG}<br/>
-
+        <div id="showErrorMsg"></div>
         <div id="componentRender" class="container"></div>
-
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <button onclick="appComponents.htmlTable()">Click me</button>
-        <div id="showItems"></div>
 
         <script src="js/app.js"></script>
         <script src="js/login.js"></script>
-        <script src="js/items.js"></script>
         <% session.invalidate(); %>
         </body>
 </html>

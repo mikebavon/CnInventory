@@ -1,6 +1,7 @@
 package com.cohort.action;
 
 import com.cohort.model.Item;
+import com.cohort.model.ResultWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletException;
@@ -54,7 +55,11 @@ public class ItemListAction extends HttpServlet {
         }
 
         ObjectMapper mapper = new ObjectMapper();
-        res.getWriter().print(mapper.writeValueAsString(items));
+        ResultWrapper wrapper = new ResultWrapper();
+        wrapper.setList(items);
+
+        res.setContentType("application/json");
+        res.getWriter().print(mapper.writeValueAsString(wrapper));
 
     }
 }

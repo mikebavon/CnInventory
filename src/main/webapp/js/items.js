@@ -1,26 +1,57 @@
 // login form
-appComponents.htmlForm.render.call({
-     url: "./item/save",
-     method: "POST",
-     formTitle: 'Inventory Item',
-     items: [{
-        label: "Item Name",
-        name: "name",
-        id: "name",
-        type: "text"
+AppComponents.htmlTable.render.apply({
+     url: "./item/list",
+     method: "GET",
+     tableTitle: 'Inventory Items',
+     renderTo: 'componentRender',
+     columns: [{
+        header: "Name",
+        dataIndex: "name",
+        width: 50,
     },{
-        label: "Purchase Price",
-        name: "purchasePrice",
-        id: "purchasePrice",
-        type: "text"
+        header: "Purchase Price",
+        dataIndex: "purchasePrice",
+        width: 25
     },{
-        label: "Selling Price",
-        name: "salePrice",
-        id: "salePrice",
-        type: "text"
+        header: "Sale Price",
+        dataIndex: "salePrice",
+        width: 25
     }],
-    submitBtn: {
-        type: 'submit',
-        value: 'Save'
-    }
+    buttons: [{
+        label: 'Add',
+        id: 'item.add',
+        handler: function(){
+            // login form
+            AppComponents.htmlForm.render.call({
+                 formTitle: 'Add Item',
+                 fields: [{
+                    label: "Name",
+                    name: "name",
+                    id: "item.name",
+                    type: "text",
+                    required: true
+                },{
+                    label: "Purchase Price",
+                    name: "purchasePrice",
+                    id: "item.purchasePrice",
+                    type: "text",
+                    required: true
+                },{
+                    label: "Sale Price",
+                    name: "salePrice",
+                    id: "item.salePrice",
+                    type: "text",
+                    required: true
+                }],
+                buttons: [{
+                    type: 'submit',
+                    method: "POST",
+                    url: './item/save',
+                    value: 'Save',
+                    showMsg: 'showErrorMsg',
+                    id: 'item.submit'
+                }]
+            });
+        }
+    }]
 });
