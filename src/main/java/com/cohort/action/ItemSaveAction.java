@@ -2,6 +2,8 @@ package com.cohort.action;
 
 
 import com.cohort.model.Item;
+import com.cohort.model.SaveResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.RequestDispatcher;
@@ -34,46 +36,45 @@ public class ItemSaveAction extends HttpServlet {
      */
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-            Item item = new Item();
+        res.setContentType("application/json");
+        String msg = "Done";
+
+        Item item = new Item();
+        try {
+            BeanUtils.populate(item, req.getParameterMap());
+
+        }catch (Exception ex){
+            msg = ex.getMessage();
+            item = null;
+        }
+
+        if (item == null){
+            res.getWriter().print(new ObjectMapper().writeValueAsString(new SaveResponse(true, msg)));
+            return;
+        }
+
+        Connection conn = (Connection) req.getServletContext().getAttribute("mysqlConn");
+
+        if (conn != null) {
             try {
-                BeanUtils.populate(item, req.getParameterMap());
+                PreparedStatement statement = conn.prepareStatement("insert into items(name,purchase_price,sale_price) values (?,?,?)");
+                statement.setString(1, item.getName());
+                statement.setBigDecimal(2, item.getPurchasePrice());
+                statement.setBigDecimal(3, item.getSalePrice());
+                statement.executeUpdate();
 
-            }catch (Exception ex){
-                //System.out.println(ex.getMessage());
-                ex.printStackTrace();
-                item = null;
-            }
-
-            if (item == null){
-                res.sendRedirect("../item/list");
-                return;
-            }
-
-        System.out.println("1... getting connection..");
-            Connection conn = (Connection) req.getServletContext().getAttribute("mysqlConn");
-
-            if (conn != null) {
-                System.out.println("2...connected...");
-                try {
-                    PreparedStatement statement = conn.prepareStatement("insert into items(name,purchase_price,sale_price) values (?,?,?)");
-                    statement.setString(1, item.getName());
-                    statement.setBigDecimal(2, item.getPurchasePrice());
-                    statement.setBigDecimal(3, item.getSalePrice());
-                    statement.executeUpdate();
-
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                    RequestDispatcher requestDispatcher = req.getRequestDispatcher("/item/form");
-                    requestDispatcher.forward(req, res);
-
-                }
-
-                res.sendRedirect("../item/list");
-
-            } else {
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
                 RequestDispatcher requestDispatcher = req.getRequestDispatcher("/item/form");
                 requestDispatcher.forward(req, res);
 
             }
+
+            res.getWriter().print(new ObjectMapper().writeValueAsString(new SaveResponse(true, "Done")));
+
+        } else {
+            res.getWriter().print(new ObjectMapper().writeValueAsString(new SaveResponse(false, "No connection")));
+
+        }
     }
 }

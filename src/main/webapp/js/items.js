@@ -1,5 +1,5 @@
 // login form
-AppComponents.htmlTable.render.apply({
+var itemsComp = {
      url: "./item/list",
      method: "GET",
      tableTitle: 'Inventory Items',
@@ -49,9 +49,17 @@ AppComponents.htmlTable.render.apply({
                     url: './item/save',
                     value: 'Save',
                     showMsg: 'showErrorMsg',
-                    id: 'item.submit'
+                    id: 'item.submit',
+                    success: function(){
+                        AppComponents.htmlTable.render.apply(itemsComp);
+                    },
+                    failure: function(){
+                        AppComponents.htmlTable.render.apply(itemsComp);
+                    }
                 }]
             });
         }
     }]
-});
+};
+
+AppComponents.htmlTable.render.apply(itemsComp);

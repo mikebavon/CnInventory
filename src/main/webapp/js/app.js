@@ -1,29 +1,44 @@
 var AppComponents = {
     htmlForm:{
         render: function(){
+            /* this method renders dynamic html form */
+
+            //declaring this object to me, so that we can reference to it, even when we are not within this.
             let me = this;
+
+            //html to render form
             let formToRender = '<h2>' + me.formTitle + '</h2>';
 
             formToRender += '<form>';
 
+            //loop through the form fields and construct form input fields in html
             me.fields.forEach(field=>{
                 formToRender += '<label for="' + field.id +'">' + field.label
                     + (field.required?'<span style="color: red;">*</span>':'') + ':</label><br>'
                     +'<input type="' + field.type + '" id="' + field.id +'" name="' + field.name + '"><br>';
             });
 
+            formToRender += '<br/><br/>';
+
+            //add buttons to form render
             me.buttons.forEach(btn=>{
                 formToRender += '<input type="' + btn.type + '" value="' + btn.value + '" id="' + btn.id + '"></form>';
             });
 
+            //render form in html div with id 'componentRender'
             document.getElementById('componentRender').innerHTML = formToRender;
 
+            //loop through the buttons again and add event listeners, modifying url, method, showMsg, success function, failure fucntion
             me.buttons.forEach(btn=>{
                 document.getElementById(btn.id).addEventListener("click",  event=>{
                     event.preventDefault();
+
                     me.url = btn.url;
                     me.method = btn.method;
                     me.showMsg = btn.showMsg;
+                    me.success = btn.success; // will execute if saving is success
+                    me.failure = btn.failure; //will execute if saving is failure
+
                     AppComponents.htmlForm.submit.apply(me);
 
                 });
@@ -31,11 +46,18 @@ var AppComponents = {
 
         },
         submit: function(){
+            /* this method submit a form through ajax */
+
+            //declaring this object to me, so that we can reference to it, even when we are not within this.
             let me = this;
 
+            //data to be submitted will be populated in this variable
             let submitData = '';
 
+            //flag to check if form is clean to be submitted
             let submitForm = true;
+
+            //loop through the form to be submitted and collect the values while populating the submitForm variable
             me.fields.forEach(field=>{
                 let fieldVal = document.getElementById(field.id).value;
                 if (field.required === true && !fieldVal)
@@ -50,17 +72,23 @@ var AppComponents = {
                 return;
             }
 
+            //ajax component
             var ajaxReq = new XMLHttpRequest();
             ajaxReq.onreadystatechange = function(){
                if (ajaxReq.readyState == XMLHttpRequest.DONE){
                 if (ajaxReq.status == 200){
                         let reqRes = eval('(' + ajaxReq.responseText + ')');
+                        console.log(me.success);
+                        console.log(me.failure);
 
                         if (reqRes.loginError)
                             document.getElementById(me.showMsg).innerHTML = reqRes.loginErrorMsg;
                         else if (reqRes.redirectPage)
                             location.href = reqRes.redirectPage;
-
+                        else if (reqRes.success)
+                            me.success();
+                        else if (reqRes.failure)
+                            me.failure();
                    }
                }
             }
@@ -73,15 +101,16 @@ var AppComponents = {
     },
     htmlTable: {
         render: function(){
+            /* this method render html page */
 
             let me = this;
             let tableToRender = '<h2>' + me.tableTitle + '</h2>';
 
             me.buttons.forEach(btn=>{
-                tableToRender += '<button type="button" id="' + btn.id + '">' + btn.label + '</button><br/>';
+                tableToRender += '<button class="app-btn green-btn" type="button" id="' + btn.id + '">' + btn.label + '</button>';
             });
 
-            tableToRender += '<table>';
+            tableToRender += '<br/><br/><table>';
 
             let tableColGroup = '<colgroup>';
             let tableHeaders = '<thead><tr>';
@@ -99,6 +128,7 @@ var AppComponents = {
 
             tableToRender += '<tbody>';
 
+            //load page from html
             var ajaxReq = new XMLHttpRequest();
             ajaxReq.onreadystatechange = function(){
                if (ajaxReq.readyState == XMLHttpRequest.DONE){
@@ -113,15 +143,19 @@ var AppComponents = {
 
                         });
 
-                        tableToRender += '</tbody>'
-
-                        document.getElementById(me.renderTo).innerHTML = tableToRender;
                    }
                }
             }
 
             ajaxReq.open(me.method, me.url, false);
             ajaxReq.send();
+
+            tableToRender += '</tbody>'
+            document.getElementById(me.renderTo).innerHTML = tableToRender;
+
+            me.buttons.forEach(btn=>{
+                document.getElementById(btn.id).addEventListener("click", btn.handler);
+            });
 
         }
     }

@@ -26,19 +26,5 @@ AppComponents.htmlForm.render.call({
         value: 'Login',
         showMsg: 'showErrorMsg',
         id: 'login.submit'
-    },{
-        type: 'submit',
-        method: "POST",
-        url: './forgotpwd',
-        value: 'Forgot Password',
-        showMsg: 'showErrorMsg',
-        id: 'login.forgotpwd'
-    },{
-        type: 'submit',
-        method: "POST",
-        url: './register',
-        value: 'Register',
-        showMsg: 'showErrorMsg',
-        id: 'login.register'
     }]
 });
