@@ -61,5 +61,3 @@ var itemsComp = {
         }
     }]
 };
-
-AppComponents.htmlTable.render.apply(itemsComp);
