@@ -7,7 +7,7 @@ var itemsComp = {
      columns: [{
         header: "Name",
         dataIndex: "name",
-        width: 50,
+        width: 47,
     },{
         header: "Purchase Price",
         dataIndex: "purchasePrice",

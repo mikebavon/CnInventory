@@ -115,6 +115,9 @@ var AppComponents = {
             let tableColGroup = '<colgroup>';
             let tableHeaders = '<thead><tr>';
 
+            tableColGroup += '<col span="1" style="width: 3%">';
+            tableHeaders += '<th></th>';
+
             me.columns.forEach(col=>{
                 tableColGroup += '<col span="' + (col.span?col.span: 1) + '" style="'+ (col.width? 'width:' + col.width + '%;': '') + '">';
                 tableHeaders += '<th>' + col.header + '</th>';
@@ -135,7 +138,8 @@ var AppComponents = {
                 if (ajaxReq.status == 200){
                         let reqRes = eval('(' + ajaxReq.responseText + ')');
                         reqRes.list.forEach(row=>{
-                            tableToRender += '<tr>';
+                            tableToRender += '<tr><td><input type="checkbox" name="name1" />&nbsp;</td>';
+
                             me.columns.forEach(col=>{
                                 tableToRender += '<td>' + row[col.dataIndex] + '</td>';
                             });
