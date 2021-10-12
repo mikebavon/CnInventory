@@ -13,10 +13,47 @@ var AppComponents = {
 
             //loop through the form fields and construct form input fields in html
             me.fields.forEach(field=>{
-                formToRender += '<label for="' + field.id +'">' + field.label
-                    + (field.required?'<span style="color: red;">*</span>':'') + ':</label><br>'
-                    +'<input type="' + field.type + '" id="' + field.id +'" name="' + field.name + '"><br>';
+                if (field.type === 'select'){
+                    formToRender += '<label for="' + field.id +'">' + field.label
+                        + (field.required?'<span style="color: red;">*</span>':'') + ':</label><br>'
+                        + '<select name="' + field.name + '" id="' + field.id + '">';
+
+                      let selectOptions;
+                      if (field.select && field.select.data){
+                        selectOptions = field.select.data;
+
+                      }else if (field.select && field.select.url){
+
+                            var ajaxReq = new XMLHttpRequest();
+                            ajaxReq.onreadystatechange = function(){
+                               if (ajaxReq.readyState == XMLHttpRequest.DONE){
+                                if (ajaxReq.status == 200){
+                                        selectOptions = eval('(' + ajaxReq.responseText + ')');
+                                        selectOptions = selectOptions.list;
+                                   }
+                               }
+                            }
+
+                            ajaxReq.open('get', field.select.url, false);
+                            ajaxReq.send();
+
+                      }
+
+                      selectOptions.forEach(option =>{
+                         formToRender += '<option value="' + option[field.select.optionMap.value]+ '">' + option[field.select.optionMap.display] + '</option>';
+                      })
+
+                      formToRender += '</select>';
+
+                }else{
+                    formToRender += '<label for="' + field.id +'">' + field.label
+                        + (field.required?'<span style="color: red;">*</span>':'') + ':</label><br>'
+                        +'<input type="' + field.type + '" id="' + field.id +'" name="' + field.name + '"><br>';
+                }
+
             });
+
+            console.log(formToRender);
 
             formToRender += '<br/><br/>';
 
@@ -78,8 +115,6 @@ var AppComponents = {
                if (ajaxReq.readyState == XMLHttpRequest.DONE){
                 if (ajaxReq.status == 200){
                         let reqRes = eval('(' + ajaxReq.responseText + ')');
-                        console.log(me.success);
-                        console.log(me.failure);
 
                         if (reqRes.loginError)
                             document.getElementById(me.showMsg).innerHTML = reqRes.loginErrorMsg;

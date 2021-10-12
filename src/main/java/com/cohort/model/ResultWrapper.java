@@ -1,18 +1,37 @@
 package com.cohort.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-public class ResultWrapper implements Serializable {
+public class ResultWrapper<T> implements Serializable {
 
-    private List<Item> list = new ArrayList<Item>();
+    private List<T> list;
 
-    public List<Item> getList() {
+    private boolean success = true;
+
+    private String message = "Done";
+
+    public List<T> getList() {
         return list;
     }
 
-    public void setList(List<Item> list) {
+    public void setList(List<T> list) {
         this.list = list;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

@@ -26,7 +26,7 @@ import java.util.List;
         @WebInitParam(name = "Page Name", value = "Item Catalog")
     }
 )
-public class ItemListAction extends HttpServlet {
+public class ItemListAction extends BaseServlet {
 
     /**
      * Handles GET request, called when the page is loaded first, because the loading a page is a get request on http
@@ -54,12 +54,10 @@ public class ItemListAction extends HttpServlet {
             throwables.printStackTrace();
         }
 
-        ObjectMapper mapper = new ObjectMapper();
-        ResultWrapper wrapper = new ResultWrapper();
-        wrapper.setList(items);
+        resultWrapper.setList(items);
 
         res.setContentType("application/json");
-        res.getWriter().print(mapper.writeValueAsString(wrapper));
+        res.getWriter().print(jsonMapper.writeValueAsString(resultWrapper));
 
     }
 }

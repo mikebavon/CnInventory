@@ -2,15 +2,12 @@ package com.cohort.action;
 
 
 import com.cohort.model.Item;
-import com.cohort.model.SaveResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.beanutils.BeanUtils;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -25,7 +22,7 @@ import java.sql.SQLException;
         @WebInitParam(name = "Page Name", value = "Item Catalog")
     }
 )
-public class ItemSaveAction extends HttpServlet {
+public class ItemSaveAction extends BaseServlet {
 
     /**
      * Handles GET request, called when the page is loaded first, because the loading a page is a get request on http
@@ -37,20 +34,21 @@ public class ItemSaveAction extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         res.setContentType("application/json");
-        String msg = "Done";
-
         Item item = new Item();
         try {
             BeanUtils.populate(item, req.getParameterMap());
 
         }catch (Exception ex){
-            msg = ex.getMessage();
+            resultWrapper.setMessage(ex.getMessage());
             item = null;
+
         }
 
         if (item == null){
-            res.getWriter().print(new ObjectMapper().writeValueAsString(new SaveResponse(true, msg)));
+            resultWrapper.setSuccess(false);
+            res.getWriter().print(jsonMapper.writeValueAsString(resultWrapper));
             return;
+
         }
 
         Connection conn = (Connection) req.getServletContext().getAttribute("mysqlConn");
@@ -63,18 +61,16 @@ public class ItemSaveAction extends HttpServlet {
                 statement.setBigDecimal(3, item.getSalePrice());
                 statement.executeUpdate();
 
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-                RequestDispatcher requestDispatcher = req.getRequestDispatcher("/item/form");
-                requestDispatcher.forward(req, res);
-
+            } catch (SQLException ex) {
+                resultWrapper.setSuccess(false);
+                resultWrapper.setMessage(ex.getMessage());
             }
 
-            res.getWriter().print(new ObjectMapper().writeValueAsString(new SaveResponse(true, "Done")));
-
         } else {
-            res.getWriter().print(new ObjectMapper().writeValueAsString(new SaveResponse(false, "No connection")));
-
+            resultWrapper.setSuccess(false);
+            resultWrapper.setMessage("No connection");
         }
+
+        res.getWriter().print(jsonMapper.writeValueAsString(resultWrapper));
     }
 }

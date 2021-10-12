@@ -8,5 +8,6 @@
         <script src="js/cohort9.lib.js"></script>
         <script src="js/app.js"></script>
         <script src="js/items.js"></script>
+        <script src="js/items.category.js"></script>
     </body>
 </html>
