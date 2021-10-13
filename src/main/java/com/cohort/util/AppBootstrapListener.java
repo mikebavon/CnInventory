@@ -1,18 +1,23 @@
 package com.cohort.util;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import javax.sql.DataSource;
 import java.sql.*;
 
 @WebListener
 public class AppBootstrapListener implements ServletContextListener {
 
+    @Resource(lookup = "java:jboss/datasources/CnInventory")
+    private DataSource dataSource;
+
     public void contextInitialized(ServletContextEvent sce) {
 
         try {
-            Connection conn = DbUtil.getInstance().getDataSource().getConnection();
+            Connection conn = dataSource.getConnection();
 
             this.createDbTables(conn);
             ServletContext sc = sce.getServletContext();
@@ -56,5 +61,4 @@ public class AppBootstrapListener implements ServletContextListener {
         System.out.println("Item Category Table Created");
 
     }
-
 }

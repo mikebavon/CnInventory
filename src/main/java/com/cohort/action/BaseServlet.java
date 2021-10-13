@@ -10,4 +10,5 @@ public class BaseServlet extends HttpServlet {
     ObjectMapper jsonMapper = new ObjectMapper();
 
     ResultWrapper resultWrapper = new ResultWrapper<Object>();
+
 }
