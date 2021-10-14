@@ -2,12 +2,15 @@ package com.cohort.action;
 
 import com.cohort.bean.LoginBean;
 import com.cohort.bean.LoginBeanI;
+import com.cohort.dao.BaseDao;
+import com.cohort.dao.BaseDaoI;
 import com.cohort.model.Login;
 import com.cohort.model.LoginResponse;
 import com.cohort.model.UserType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.beanutils.BeanUtils;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +29,9 @@ import java.util.Random;
     }
 )
 public class LoginAction extends HttpServlet {
+
+    @Inject
+    private BaseDaoI baseDao;
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{
 

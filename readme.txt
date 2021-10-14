@@ -303,6 +303,37 @@ Objects
 
 3. this, prototype, call, apply, bind ===== .....
 
+4. CDI
+
+Normally - creating an object instance
+ Dependency - One class or object is depending on another object to do something.
+
+ public class Exam(){
+
+    Student student = new Student();
+
+
+ }
+
+Class Exam depends on student;
+
+Without CDI you use the new keyword
+ Student student = new Student();
+
+With CDI
+
+  @Inject
+  Student student; //container wildfly(CDI - weld) manages the instance, creation, desctruction.....
+
+Injection Points
+    -field
+    -method - void,only parameter trying to inject
+    -constructor
+
+
+
+
+
 
 
 

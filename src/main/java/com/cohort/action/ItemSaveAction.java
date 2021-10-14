@@ -1,19 +1,20 @@
 package com.cohort.action;
 
 
+import com.cohort.dao.BaseDao;
+import com.cohort.dao.BaseDaoI;
 import com.cohort.model.Item;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.beanutils.BeanUtils;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(
     name="ItemSave",
@@ -23,6 +24,9 @@ import java.sql.SQLException;
     }
 )
 public class ItemSaveAction extends BaseServlet {
+
+    @Inject
+    private BaseDaoI baseDao;
 
     /**
      * Handles GET request, called when the page is loaded first, because the loading a page is a get request on http
@@ -51,24 +55,17 @@ public class ItemSaveAction extends BaseServlet {
 
         }
 
-        Connection conn = (Connection) req.getServletContext().getAttribute("mysqlConn");
+        try {
+            List<Object> params = new ArrayList<Object>();
+            params.add(item.getName());
+            params.add(item.getPurchasePrice());
+            params.add(item.getSalePrice());
 
-        if (conn != null) {
-            try {
-                PreparedStatement statement = conn.prepareStatement("insert into items(name,purchase_price,sale_price) values (?,?,?)");
-                statement.setString(1, item.getName());
-                statement.setBigDecimal(2, item.getPurchasePrice());
-                statement.setBigDecimal(3, item.getSalePrice());
-                statement.executeUpdate();
+            baseDao.save("insert into items(name,purchase_price,sale_price) values (?,?,?)", params);
 
-            } catch (SQLException ex) {
-                resultWrapper.setSuccess(false);
-                resultWrapper.setMessage(ex.getMessage());
-            }
-
-        } else {
+        } catch (Exception ex) {
             resultWrapper.setSuccess(false);
-            resultWrapper.setMessage("No connection");
+            resultWrapper.setMessage(ex.getMessage());
         }
 
         res.getWriter().print(jsonMapper.writeValueAsString(resultWrapper));

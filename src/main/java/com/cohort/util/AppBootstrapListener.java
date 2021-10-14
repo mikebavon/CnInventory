@@ -11,7 +11,7 @@ import java.sql.*;
 @WebListener
 public class AppBootstrapListener implements ServletContextListener {
 
-    @Resource(lookup = "java:jboss/datasources/CnInventory")
+    @Resource(lookup = "java:jboss/datasources/CnInventory2")
     private DataSource dataSource;
 
     public void contextInitialized(ServletContextEvent sce) {
