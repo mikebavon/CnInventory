@@ -4,7 +4,7 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.Connection;
 
-@Odikor
+@DatabaseTwo
 public class EntityManagerDb2 implements EntityManagerI {
 
     @Resource(lookup = "java:jboss/datasources/CnInventory2")

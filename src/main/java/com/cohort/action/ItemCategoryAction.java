@@ -4,6 +4,7 @@ import com.cohort.model.ItemCategory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.beanutils.BeanUtils;
 
+import javax.inject.Inject;
 import javax.servlet.*;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
@@ -26,10 +27,13 @@ import java.util.List;
 )
 public class ItemCategoryAction extends BaseServlet {
 
+    @Inject
+    private ServletContext servletContext;
+
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
         List<ItemCategory> itemsCategories = new ArrayList<ItemCategory>();
-        Connection conn = (Connection) req.getServletContext().getAttribute("mysqlConn");
+        Connection conn = (Connection) servletContext.getAttribute("mysqlConn");
 
         try {
             PreparedStatement statement = conn.prepareStatement("select * from item_categories");
@@ -68,7 +72,7 @@ public class ItemCategoryAction extends BaseServlet {
             return;
         }
 
-        Connection conn = (Connection) req.getServletContext().getAttribute("mysqlConn");
+        Connection conn = (Connection) servletContext.getAttribute("mysqlConn");
 
         if (conn != null) {
             try {

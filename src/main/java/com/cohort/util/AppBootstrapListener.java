@@ -1,27 +1,29 @@
 package com.cohort.util;
 
-import javax.annotation.Resource;
+import com.cohort.dao.BaseDaoI;
+
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.sql.DataSource;
 import java.sql.*;
 
 @WebListener
 public class AppBootstrapListener implements ServletContextListener {
 
-    @Resource(lookup = "java:jboss/datasources/CnInventory2")
-    private DataSource dataSource;
+    @Inject
+    @DatabaseOne
+    private EntityManagerI em;
 
     public void contextInitialized(ServletContextEvent sce) {
 
         try {
-            Connection conn = dataSource.getConnection();
+            Connection conn = em.getConnection();
 
             this.createDbTables(conn);
-            ServletContext sc = sce.getServletContext();
-            sc.setAttribute("mysqlConn", conn);
+
+            sce.getServletContext().setAttribute("mysqlConn", conn);
 
         } catch (Exception ex) {
             ex.printStackTrace();

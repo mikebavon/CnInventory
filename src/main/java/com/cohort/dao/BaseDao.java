@@ -1,7 +1,7 @@
 package com.cohort.dao;
 
+import com.cohort.util.DatabaseOne;
 import com.cohort.util.EntityManagerI;
-import com.cohort.util.Odikor;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
@@ -11,7 +11,7 @@ import java.util.List;
 public class BaseDao implements BaseDaoI {
 
     @Inject
-    @Odikor
+    @DatabaseOne
     private EntityManagerI em;
 
     public void save(String sql, List<Object> params) throws Exception{

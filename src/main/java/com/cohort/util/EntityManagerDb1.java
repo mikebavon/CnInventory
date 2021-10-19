@@ -4,7 +4,7 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.Connection;
 
-@Nancy
+@DatabaseOne
 public class EntityManagerDb1 implements EntityManagerI {
 
     @Resource(lookup = "java:jboss/datasources/CnInventory")

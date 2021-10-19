@@ -1,8 +1,7 @@
 package com.cohort.action;
 
-import com.cohort.bean.LoginBean;
-import com.cohort.bean.LoginBeanI;
-import com.cohort.dao.BaseDao;
+import com.cohort.bean.LoginUserBeanI;
+import com.cohort.cdi.LoginUser;
 import com.cohort.dao.BaseDaoI;
 import com.cohort.model.Login;
 import com.cohort.model.LoginResponse;
@@ -33,10 +32,21 @@ public class LoginAction extends HttpServlet {
     @Inject
     private BaseDaoI baseDao;
 
+    @Inject @LoginUser
+    private LoginUserBeanI loginNormalUserBean;
+
+    @Inject @LoginUser(type = UserType.ADMIN)
+    private LoginUserBeanI loginAdminUserBean;
+
+    @Inject @LoginUser(type = UserType.SUPER_ADMIN)
+    private LoginUserBeanI loginSuperAdminUserBean;
+
+    @Inject @LoginUser(type = UserType.SUPER_SUPER_ADMIN)
+    private LoginUserBeanI loginSuperSuperAdminUserBean;
+
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{
 
         HttpSession session = req.getSession(true);
-        LoginBeanI loginBean = new LoginBean();
         LoginResponse loginResponse = new LoginResponse();
 
         try {
@@ -51,15 +61,39 @@ public class LoginAction extends HttpServlet {
                 }
             }
 
-            if (loginBean.checkUser(login)) {
+            System.out.println("USER TYPE: " + login.getUserType());
+
+            if (login.getUserType() == UserType.USER && loginNormalUserBean.checkUser(login)) {
                 loginResponse.setSessionId(new Random().nextInt() + "");
                 loginResponse.setEmail(login.getUsername());
                 loginResponse.setUser("MIKE BAVON");
                 loginResponse.setRedirectPage("./home.jsp");
 
-            }else {
+            } else if (login.getUserType() == UserType.ADMIN && loginAdminUserBean.checkUser(login)) {
+                loginResponse.setSessionId(new Random().nextInt() + "");
+                loginResponse.setEmail(login.getUsername());
+                loginResponse.setUser("UHURU KENYATTA");
+                loginResponse.setRedirectPage("./home.jsp");
+
+
+            } else if (login.getUserType() == UserType.SUPER_ADMIN && loginSuperAdminUserBean.checkUser(login)) {
+                loginResponse.setSessionId(new Random().nextInt() + "");
+                loginResponse.setEmail(login.getUsername());
+                loginResponse.setUser("UHURU KENYATTA");
+                loginResponse.setRedirectPage("./home.jsp");
+
+
+            } else if (login.getUserType() == UserType.SUPER_SUPER_ADMIN && loginSuperSuperAdminUserBean.checkUser(login)) {
+                loginResponse.setSessionId(new Random().nextInt() + "");
+                loginResponse.setEmail(login.getUsername());
+                loginResponse.setUser("UHURU KENYATTA");
+                loginResponse.setRedirectPage("./home.jsp");
+
+
+            } else {
                 loginResponse.setLoginError(true);
                 loginResponse.setLoginErrorMsg("Invalid Login Details");
+
             }
 
         }catch (Exception ex){
