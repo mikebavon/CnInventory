@@ -1,4 +1,4 @@
-package com.cohort.cdi;
+package com.cohort.service;
 
 import com.cohort.model.UserType;
 

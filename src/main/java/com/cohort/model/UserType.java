@@ -1,6 +1,6 @@
 package com.cohort.model;
 
-import com.cohort.bean.*;
+import com.cohort.service.*;
 
 public enum UserType {
     USER(LoginNormalUserBean.class),

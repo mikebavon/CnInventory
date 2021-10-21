@@ -1,22 +1,21 @@
-package com.cohort.bean;
+package com.cohort.service;
 
-import com.cohort.cdi.LoginUser;
 import com.cohort.model.Login;
 import com.cohort.model.LoginResponse;
 import com.cohort.model.UserType;
 
 import java.util.Random;
 
-@LoginUser(type = UserType.SUPER_ADMIN)
-public class LoginSuperAdminUserBean implements LoginUserBeanI {
+@LoginUser(type = UserType.USER)
+public class LoginNormalUserBean implements LoginUserBeanI {
 
-    private static final String USERNAME = "john.smith@email.com";
-    private static final String PASSWORD = "SMITH123*";
+    private static final String USERNAME = "john.doe@email.com";
+    private static final String PASSWORD = "JOHN123*";
 
     public LoginResponse checkUser(Login login) throws Exception {
-        System.out.println("CHECKING SUPER ADMIN USER..............");
+        System.out.println("CHECKING NORMAL USER..............");
 
-        if (login == null || login.getUserType() != UserType.SUPER_ADMIN || login.getUsername() == null || login.getPassword() == null)
+        if (login == null || login.getUserType() != UserType.USER || login.getUsername() == null || login.getPassword() == null)
             return new LoginResponse();
 
         LoginResponse loginResponse = new LoginResponse(!(login.getUsername().equalsIgnoreCase(USERNAME)
@@ -25,13 +24,9 @@ public class LoginSuperAdminUserBean implements LoginUserBeanI {
         if (!loginResponse.isLoginError()) {
             loginResponse.setSessionId(new Random().nextInt() + "");
             loginResponse.setEmail(login.getUsername());
-            loginResponse.setUser("JOHN SMITH");
+            loginResponse.setUser("JOHN DOE");
             loginResponse.setRedirectPage("./home.jsp");
         }
-
-        System.out.println("CHECKING CARD......");
-
-        System.out.println("CHECKING FINGER PRINT ......");
 
         return loginResponse;
     }

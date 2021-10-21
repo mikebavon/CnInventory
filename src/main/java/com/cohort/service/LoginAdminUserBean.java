@@ -1,6 +1,5 @@
-package com.cohort.bean;
+package com.cohort.service;
 
-import com.cohort.cdi.LoginUser;
 import com.cohort.model.Login;
 import com.cohort.model.LoginResponse;
 import com.cohort.model.UserType;

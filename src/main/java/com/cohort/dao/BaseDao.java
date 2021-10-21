@@ -1,11 +1,13 @@
 package com.cohort.dao;
 
+import com.cohort.model.Item;
 import com.cohort.util.DatabaseOne;
 import com.cohort.util.EntityManagerI;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
 public class BaseDao implements BaseDaoI {
@@ -39,5 +41,9 @@ public class BaseDao implements BaseDaoI {
 
         statement.executeUpdate();
 
+    }
+
+    public ResultSet getList(String sql) throws Exception {
+        return  em.getConnection().prepareStatement(sql).executeQuery();
     }
 }

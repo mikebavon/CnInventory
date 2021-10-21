@@ -1,20 +1,14 @@
 package com.cohort.action;
 
-import com.cohort.model.Item;
+import com.cohort.ejb.ItemEjbI;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 @WebServlet(
     name="ItemList",
@@ -25,6 +19,8 @@ import java.util.List;
 )
 public class ItemListAction extends BaseServlet {
 
+    @EJB
+    private ItemEjbI itemEjb;
     /**
      * Handles GET request, called when the page is loaded first, because the loading a page is a get request on http
      * @param req
@@ -34,27 +30,8 @@ public class ItemListAction extends BaseServlet {
      */
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
-        List<Item> items = new ArrayList<Item>();
-        Connection conn = (Connection) req.getServletContext().getAttribute("mysqlConn");
-
-        try {
-            PreparedStatement statement = conn.prepareStatement("select * from items");
-            ResultSet resultSet = statement.executeQuery();
-
-            while(resultSet.next()){
-                items.add(new Item((String)  resultSet.getString("name"),
-                    (BigDecimal) resultSet.getBigDecimal("purchase_price"),
-                    (BigDecimal) resultSet.getBigDecimal("sale_price")));
-            }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-        resultWrapper.setList(items);
-
         res.setContentType("application/json");
-        res.getWriter().print(jsonMapper.writeValueAsString(resultWrapper));
+        res.getWriter().print(jsonMapper.writeValueAsString(itemEjb.list()));
 
     }
 }
