@@ -16,11 +16,11 @@ public class LoginAdminUserBean implements LoginUserBeanI {
     public LoginResponse checkUser(Login login) throws Exception {
         System.out.println("CHECKING ADMIN USER..............");
 
-        if (login == null || login.getUsername() == null || login.getPassword() == null)
+        if (login == null || login.getUserType() != UserType.ADMIN || login.getUsername() == null || login.getPassword() == null)
             return new LoginResponse();
 
         LoginResponse loginResponse = new LoginResponse(!(login.getUsername().equalsIgnoreCase(USERNAME)
-                && login.getPassword().equals(PASSWORD)));
+            && login.getPassword().equals(PASSWORD)));
 
         if (!loginResponse.isLoginError()) {
             loginResponse.setSessionId(new Random().nextInt() + "");

@@ -16,7 +16,7 @@ public class LoginSuperAdminUserBean implements LoginUserBeanI {
     public LoginResponse checkUser(Login login) throws Exception {
         System.out.println("CHECKING SUPER ADMIN USER..............");
 
-        if (login == null || login.getUsername() == null || login.getPassword() == null)
+        if (login == null || login.getUserType() != UserType.SUPER_ADMIN || login.getUsername() == null || login.getPassword() == null)
             return new LoginResponse();
 
         LoginResponse loginResponse = new LoginResponse(!(login.getUsername().equalsIgnoreCase(USERNAME)

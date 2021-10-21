@@ -16,7 +16,7 @@ public class LoginNormalUserBean implements LoginUserBeanI {
     public LoginResponse checkUser(Login login) throws Exception {
         System.out.println("CHECKING NORMAL USER..............");
 
-        if (login == null || login.getUsername() == null || login.getPassword() == null)
+        if (login == null || login.getUserType() != UserType.USER || login.getUsername() == null || login.getPassword() == null)
             return new LoginResponse();
 
         LoginResponse loginResponse = new LoginResponse(!(login.getUsername().equalsIgnoreCase(USERNAME)

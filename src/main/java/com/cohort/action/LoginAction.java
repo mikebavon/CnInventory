@@ -1,7 +1,6 @@
 package com.cohort.action;
 
 import com.cohort.bean.LoginUserBeanI;
-import com.cohort.cdi.LoginUser;
 import com.cohort.dao.BaseDaoI;
 import com.cohort.model.Login;
 import com.cohort.model.LoginResponse;
@@ -9,6 +8,8 @@ import com.cohort.model.UserType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.beanutils.BeanUtils;
 
+import javax.enterprise.inject.Any;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
@@ -18,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Random;
 
 @WebServlet(
     name="Login",
@@ -32,17 +32,8 @@ public class LoginAction extends HttpServlet {
     @Inject
     private BaseDaoI baseDao;
 
-    @Inject @LoginUser
-    private LoginUserBeanI loginNormalUserBean;
-
-    @Inject @LoginUser(type = UserType.ADMIN)
-    private LoginUserBeanI loginAdminUserBean;
-
-    @Inject @LoginUser(type = UserType.SUPER_ADMIN)
-    private LoginUserBeanI loginSuperAdminUserBean;
-
-    @Inject @LoginUser(type = UserType.SUPER_SUPER_ADMIN)
-    private LoginUserBeanI loginSuperSuperAdminUserBean;
+    @Inject @Any
+    private Instance<LoginUserBeanI> loginUserBeans;
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{
 
@@ -61,20 +52,10 @@ public class LoginAction extends HttpServlet {
                 }
             }
 
-            if (login.getUserType() == UserType.USER) {
-                loginResponse = loginNormalUserBean.checkUser(login);
+            if (login.getUserType() != null){
 
-            } else if (login.getUserType() == UserType.ADMIN) {
-                loginResponse = loginAdminUserBean.checkUser(login);
-
-
-            } else if (login.getUserType() == UserType.SUPER_ADMIN) {
-                loginResponse = loginSuperAdminUserBean.checkUser(login);
-
-
-            } else if (login.getUserType() == UserType.SUPER_SUPER_ADMIN) {
-                loginResponse = loginSuperSuperAdminUserBean.checkUser(login);
-
+                for (LoginUserBeanI loginUserBean : loginUserBeans)
+                    loginResponse = loginUserBean.checkUser(login);
 
             } else {
                 loginResponse.setLoginError(true);
