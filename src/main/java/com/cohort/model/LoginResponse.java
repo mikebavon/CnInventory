@@ -12,9 +12,18 @@ public class LoginResponse implements Serializable {
 
     private String redirectPage;
 
-    private boolean loginError;
+    private boolean loginError = true;
 
     private String loginErrorMsg;
+
+    public LoginResponse(){}
+
+    public LoginResponse(boolean loginError){
+        this.loginError = loginError;
+
+        if (loginError)
+            loginErrorMsg = "Invalid Login Details";
+    }
 
     public String getUser() {
         return user;

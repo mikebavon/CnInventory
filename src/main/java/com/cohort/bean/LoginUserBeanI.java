@@ -1,8 +1,9 @@
 package com.cohort.bean;
 
 import com.cohort.model.Login;
+import com.cohort.model.LoginResponse;
 
 public interface LoginUserBeanI {
 
-    boolean checkUser(Login login) throws Exception;
+    LoginResponse checkUser(Login login) throws Exception;
 }

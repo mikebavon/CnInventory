@@ -61,33 +61,19 @@ public class LoginAction extends HttpServlet {
                 }
             }
 
-            System.out.println("USER TYPE: " + login.getUserType());
+            if (login.getUserType() == UserType.USER) {
+                loginResponse = loginNormalUserBean.checkUser(login);
 
-            if (login.getUserType() == UserType.USER && loginNormalUserBean.checkUser(login)) {
-                loginResponse.setSessionId(new Random().nextInt() + "");
-                loginResponse.setEmail(login.getUsername());
-                loginResponse.setUser("MIKE BAVON");
-                loginResponse.setRedirectPage("./home.jsp");
-
-            } else if (login.getUserType() == UserType.ADMIN && loginAdminUserBean.checkUser(login)) {
-                loginResponse.setSessionId(new Random().nextInt() + "");
-                loginResponse.setEmail(login.getUsername());
-                loginResponse.setUser("UHURU KENYATTA");
-                loginResponse.setRedirectPage("./home.jsp");
+            } else if (login.getUserType() == UserType.ADMIN) {
+                loginResponse = loginAdminUserBean.checkUser(login);
 
 
-            } else if (login.getUserType() == UserType.SUPER_ADMIN && loginSuperAdminUserBean.checkUser(login)) {
-                loginResponse.setSessionId(new Random().nextInt() + "");
-                loginResponse.setEmail(login.getUsername());
-                loginResponse.setUser("UHURU KENYATTA");
-                loginResponse.setRedirectPage("./home.jsp");
+            } else if (login.getUserType() == UserType.SUPER_ADMIN) {
+                loginResponse = loginSuperAdminUserBean.checkUser(login);
 
 
-            } else if (login.getUserType() == UserType.SUPER_SUPER_ADMIN && loginSuperSuperAdminUserBean.checkUser(login)) {
-                loginResponse.setSessionId(new Random().nextInt() + "");
-                loginResponse.setEmail(login.getUsername());
-                loginResponse.setUser("UHURU KENYATTA");
-                loginResponse.setRedirectPage("./home.jsp");
+            } else if (login.getUserType() == UserType.SUPER_SUPER_ADMIN) {
+                loginResponse = loginSuperSuperAdminUserBean.checkUser(login);
 
 
             } else {
