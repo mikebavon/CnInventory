@@ -14,20 +14,18 @@ import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(
     name="Login",
-    urlPatterns = "/login",
-    initParams = {
-        @WebInitParam(name = "Page Name", value = "Item Catalog")
-    }
+    urlPatterns = "/login"
 )
-public class LoginAction extends HttpServlet {
+public class LoginAction extends BaseServlet {
 
     @Inject
     private BaseDaoI baseDao;
@@ -53,9 +51,7 @@ public class LoginAction extends HttpServlet {
             }
 
             if (login.getUserType() != null){
-
-                for (LoginUserBeanI loginUserBean : loginUserBeans)
-                    loginResponse = loginUserBean.checkUser(login);
+                loginResponse = loginUserBeans.select(login.getUserType().getClazz()).get().checkUser(login);
 
             } else {
                 loginResponse.setLoginError(true);
@@ -68,8 +64,29 @@ public class LoginAction extends HttpServlet {
             loginResponse.setLoginErrorMsg("Invalid Login Details, '" + ex.getMessage());
         }
 
+        if (!loginResponse.isLoginError()){
+            session.setAttribute("loginUserData", loginResponse);
+        }
+
         res.setContentType("application/json");
         res.getWriter().print(new ObjectMapper().writeValueAsString(loginResponse));
 
     }
+
+    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{
+
+        HttpSession session = req.getSession();
+        List<LoginResponse> loginResponse = new ArrayList<LoginResponse>();
+
+
+        if (session.getAttribute("loginUserData") != null)
+            loginResponse.add((LoginResponse) session.getAttribute("loginUserData"));
+
+        resultWrapper.setList(loginResponse);
+
+        res.setContentType("application/json");
+        res.getWriter().print(jsonMapper.writeValueAsString(resultWrapper));
+
+    }
+
 }

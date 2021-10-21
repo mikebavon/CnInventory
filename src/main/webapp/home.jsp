@@ -4,6 +4,7 @@
     </head>
     <body>
         <div class="topnav" id="comp-topnav"></div>
+        <div id="userSessionData"></div>
         <div id="componentRender" class="container"></div>
         <script src="js/cohort9.lib.js"></script>
         <script src="js/app.js"></script>

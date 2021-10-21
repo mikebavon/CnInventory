@@ -61,18 +61,6 @@ public class WrongWayOfBean {
 
             return (login.getUsername().equalsIgnoreCase(USERNAME) && login.getPassword().equals(PASSWORD));
 
-        } else if (login.getUserType() == UserType.SUPER_SUPER_SUPER_ADMIN) {
-            System.out.println("CHECKING NORMAL USER..............");
-            System.out.println("CHECKING EYE AND ALIVE ......");
-            System.out.println("TWO USERS MUST TURN KEY AT SAME TIME ......");
-
-            if (login.getUsername() == null || login.getPassword() == null)
-                return false;
-
-            System.out.println(login.getOtp());
-
-            return (login.getUsername().equalsIgnoreCase(USERNAME) && login.getPassword().equals(PASSWORD));
-
         }
 
         return false;

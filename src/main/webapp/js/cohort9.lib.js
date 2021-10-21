@@ -208,17 +208,19 @@ var AppComponents = {
                 topNavToolBar += '<a class="' + link.class + '" id="' + link.id + '" href="#">' + link.label + '</a>';
             });
 
+            let userSessionData = AppComponents.htmlToNavBar.loadSessionData(me.userDataLink);
+
             document.getElementById(me.renderTo).innerHTML = topNavToolBar;
 
             me.links.forEach(link=>{
                 document.getElementById(link.id).addEventListener("click", link.handler);
             });
 
+            document.getElementById('userSessionData').innerHTML = '<h2>' + userSessionData.user + ' ' + userSessionData.email + '</h2>';
+
         },
         changeStyle: function(linkId){
             let me = this;
-            console.log(me);
-            console.log(linkId);
 
             me.links.forEach(link=>{
                 if (link.id === linkId){
@@ -229,6 +231,31 @@ var AppComponents = {
 
                }
             });
+        },
+        loadSessionData: function(userDataLink){
+            let userSessionData = {};
+
+            var ajaxReq = new XMLHttpRequest();
+            ajaxReq.onreadystatechange = function(){
+               if (ajaxReq.readyState == XMLHttpRequest.DONE){
+                if (ajaxReq.status == 200){
+                        let reqRes = eval('(' + ajaxReq.responseText + ')');
+
+                        reqRes.list.forEach(row=>{
+                            userSessionData = row;
+                        });
+                   }
+               }
+            }
+
+            ajaxReq.open('get', userDataLink, false);
+            ajaxReq.send();
+
+            if (!userSessionData.sessionId)
+                location.href = './';
+
+            return userSessionData;
+
         }
     }
 };

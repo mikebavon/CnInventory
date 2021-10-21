@@ -17,7 +17,13 @@ AppComponents.htmlForm.render.call({
         label: "User Type",
         name: "userTypeStr",
         id: "userTypeStr",
-        type: "text"
+        type: "select",
+        select: {
+            data: [{id: 'USER', display: 'User'},{id: 'ADMIN', display: 'Admin'},{id: 'SUPER_ADMIN', display: 'Super Admin'},
+                {id: 'SUPER_SUPER_ADMIN', display: 'Super Super Admin'}],
+            optionMap:{value: 'id', display: 'display'}
+        },
+        required: true
     }],
     buttons: [{
         type: 'submit',
