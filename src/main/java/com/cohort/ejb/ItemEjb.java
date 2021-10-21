@@ -37,6 +37,18 @@ public class ItemEjb implements ItemEjbI{
             return resultWrapper;
         }
 
+        if (item.getName() == null || item.getPurchasePrice() == null || item.getSalePrice() == null) {
+            resultWrapper.setSuccess(false);
+            resultWrapper.setMessage("Name, purchase price and sales price is required!");
+            return resultWrapper;
+        }
+
+        if (item.getPurchasePrice().compareTo(item.getSalePrice()) < 0){
+            resultWrapper.setSuccess(false);
+            resultWrapper.setMessage("Sales price cannot be less than purchase price!!");
+            return resultWrapper;
+        }
+
         try {
             List<Object> entityParam = new ArrayList<Object>();
             entityParam.add(item.getName());

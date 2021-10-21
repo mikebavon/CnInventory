@@ -330,6 +330,8 @@ Injection Points
     -method - void,only parameter trying to inject
     -constructor
 
+///=============================================================
+Data access object --- access data ... dont do business...
 
 
 
