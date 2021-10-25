@@ -1,9 +1,7 @@
 package com.cohort.ejb;
 
 import com.cohort.event.Sms;
-import com.cohort.model.AuditTrail;
-import com.cohort.model.Item;
-import com.cohort.model.ResultWrapper;
+import com.cohort.model.*;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.ejb.Stateless;
@@ -56,10 +54,16 @@ public class ItemEjb implements ItemEjbI{
             return resultWrapper;
         }
 
-        em.merge(item);
+        if (item.getCategoryId() > 0)
+            item.setCategory(em.find(ItemCategory.class, item.getCategoryId()));
+
+        if (item.getWarehouseId() > 0)
+            item.setWarehouse(em.find(Warehouse.class, item.getWarehouseId()));
+
+        item = em.merge(item);
 
         smsEvent.fire(new Sms("0720893752", " Item created is " + item.getName()));
-        auditTrailEvent.fire(new AuditTrail("Created " + item.getName(), new Date()));
+        auditTrailEvent.fire(new AuditTrail("Created Item " + item.getName() + " Id: " + item.getId(), new Date()));
 
         return resultWrapper;
     }

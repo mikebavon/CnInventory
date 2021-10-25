@@ -21,8 +21,8 @@ var itemsComp = {
          formTitle: 'Add Item',
          fields: [{
             label: "Category",
-            name: "category",
-            id: "item.category",
+            name: "categoryId",
+            id: "item.categoryId",
             type: "select",
             select: {
                 url: './itemcategory',
@@ -49,8 +49,8 @@ var itemsComp = {
             required: true
         },{
             label: "Warehouse",
-            name: "warehouse",
-            id: "item.warehouse",
+            name: "warehouseId",
+            id: "item.warehouseId",
             type: "select",
             select: {
                 url: './warehouse',

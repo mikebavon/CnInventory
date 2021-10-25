@@ -1,5 +1,7 @@
 package com.cohort.model;
 
+import org.hibernate.annotations.Formula;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -42,6 +44,18 @@ public class Item implements Serializable {
 
     @Transient
     private Date toDate;
+
+    @ManyToOne
+    private ItemCategory category;
+
+    @Formula("(category_id)")
+    private int categoryId;
+
+    @ManyToOne
+    private Warehouse warehouse;
+
+    @Formula("(warehouse_id)")
+    private int warehouseId;
 
     public int getId() {
         return id;
@@ -105,5 +119,37 @@ public class Item implements Serializable {
 
     public void setToDate(Date toDate) {
         this.toDate = toDate;
+    }
+
+    public ItemCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(ItemCategory category) {
+        this.category = category;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public Warehouse getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
+
+    public int getWarehouseId() {
+        return warehouseId;
+    }
+
+    public void setWarehouseId(int warehouseId) {
+        this.warehouseId = warehouseId;
     }
 }

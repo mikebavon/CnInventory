@@ -1,12 +1,16 @@
 package com.cohort.ejb;
 
+import com.cohort.model.AuditTrail;
 import com.cohort.model.ResultWrapper;
 import com.cohort.model.Supplier;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Date;
 import java.util.Map;
 
 @Stateless
@@ -14,6 +18,9 @@ public class SupplierBean implements SupplierBeanI{
 
     @PersistenceContext
     private EntityManager em;
+
+    @Inject
+    private Event<AuditTrail> auditTrailEvent;
 
     public ResultWrapper save(Map<String, String[]> params){
         ResultWrapper resultWrapper = new ResultWrapper();
@@ -40,7 +47,8 @@ public class SupplierBean implements SupplierBeanI{
             return resultWrapper;
         }
 
-        em.merge(supplier);
+        supplier = em.merge(supplier);
+        auditTrailEvent.fire(new AuditTrail("Created Item Category " + supplier.getName() + " Id: " + supplier.getId(), new Date()));
 
         return resultWrapper;
     }
