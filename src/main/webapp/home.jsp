@@ -10,5 +10,8 @@
         <script src="js/app.js"></script>
         <script src="js/items.js"></script>
         <script src="js/items.category.js"></script>
+        <script src="js/customers.js"></script>
+        <script src="js/supplier.js"></script>
+        <script src="js/warehouse.js"></script>
     </body>
 </html>

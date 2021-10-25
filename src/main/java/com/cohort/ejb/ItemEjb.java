@@ -1,23 +1,30 @@
 package com.cohort.ejb;
 
-import com.cohort.dao.BaseDaoI;
+import com.cohort.event.Sms;
+import com.cohort.model.AuditTrail;
 import com.cohort.model.Item;
 import com.cohort.model.ResultWrapper;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.Date;
 import java.util.Map;
 
 @Stateless
 public class ItemEjb implements ItemEjbI{
 
+    @PersistenceContext
+    private EntityManager em;
+
     @Inject
-    private BaseDaoI baseDao;
+    private Event<Sms> smsEvent;
+
+    @Inject
+    private Event<AuditTrail> auditTrailEvent;
 
     public ResultWrapper save(Map<String, String[]> params){
         ResultWrapper resultWrapper = new ResultWrapper();
@@ -43,47 +50,24 @@ public class ItemEjb implements ItemEjbI{
             return resultWrapper;
         }
 
-        if (item.getPurchasePrice().compareTo(item.getSalePrice()) < 0){
+        if (item.getPurchasePrice().compareTo(item.getSalePrice()) > 0){
             resultWrapper.setSuccess(false);
             resultWrapper.setMessage("Sales price cannot be less than purchase price!!");
             return resultWrapper;
         }
 
-        try {
-            List<Object> entityParam = new ArrayList<Object>();
-            entityParam.add(item.getName());
-            entityParam.add(item.getPurchasePrice());
-            entityParam.add(item.getSalePrice());
+        em.merge(item);
 
-            baseDao.save("insert into items(name,purchase_price,sale_price) values (?,?,?)", entityParam);
+        smsEvent.fire(new Sms("0720893752", " Item created is " + item.getName()));
+        auditTrailEvent.fire(new AuditTrail("Created " + item.getName(), new Date()));
 
-        } catch (Exception ex) {
-            resultWrapper.setSuccess(false);
-            resultWrapper.setMessage(ex.getMessage());
-        }
-
-        return  resultWrapper;
+        return resultWrapper;
     }
 
     public ResultWrapper list(){
+
         ResultWrapper resultWrapper = new ResultWrapper();
-
-        List<Item> items = new ArrayList<Item>();
-
-        try {
-            ResultSet resultSet = baseDao.getList("select * from items");
-
-            while(resultSet.next()){
-                items.add(new Item((String)  resultSet.getString("name"),
-                    (BigDecimal) resultSet.getBigDecimal("purchase_price"),
-                    (BigDecimal) resultSet.getBigDecimal("sale_price")));
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        resultWrapper.setList(items);
+        resultWrapper.setList(em.createQuery("SELECT i FROM Item i", Item.class).getResultList());
 
         return resultWrapper;
     }

@@ -1,31 +1,31 @@
 package com.cohort.action;
 
-import com.cohort.ejb.ItemCategoryBeanI;
+import com.cohort.ejb.SupplierBeanI;
 
 import javax.ejb.EJB;
-import javax.servlet.*;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(
-    name="ItemCategory",
-    urlPatterns = "/itemcategory"
+    name="supplier",
+    urlPatterns = "/supplier"
 )
-public class ItemCategoryAction extends BaseServlet {
+public class SupplierAction extends BaseServlet {
 
     @EJB
-    private ItemCategoryBeanI categoryBean;
+    private SupplierBeanI supplierBean;
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         res.setContentType("application/json");
-        res.getWriter().print(jsonMapper.writeValueAsString(categoryBean.list()));
+        res.getWriter().print(jsonMapper.writeValueAsString(supplierBean.list()));
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         res.setContentType("application/json");
-        res.getWriter().print(jsonMapper.writeValueAsString(categoryBean.save(req.getParameterMap())));
+        res.getWriter().print(jsonMapper.writeValueAsString(supplierBean.save(req.getParameterMap())));
     }
 
 }

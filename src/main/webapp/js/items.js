@@ -53,8 +53,8 @@ var itemsComp = {
             id: "item.warehouse",
             type: "select",
             select: {
-                data: [{id: '1', location: 'Nairobi'},{id: '2', location: 'Mombasa'},{id: '3', location: 'Nakuru'}],
-                optionMap:{value: 'id', display: 'location'}
+                url: './warehouse',
+                optionMap:{value: 'id', display: 'name'}
             },
             required: true
         }],

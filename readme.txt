@@ -334,13 +334,9 @@ Injection Points
 Data access object --- access data ... dont do business...
 
 
-
-
-
-
-
-
-
+JPA  - JAVA PERSISTENCE API - specification
+ORM (Object relation mapping) - allows to map object to relational database tables;
+Hibernate(orm) that implements JPA SPECIFICATION
 
 
 

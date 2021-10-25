@@ -26,12 +26,30 @@ let appNavBarLinks = {
         label: "Customers",
         id: "app.link.customers",
         handler: function(){
+            let me = this;
+
+            AppComponents.htmlToNavBar.changeStyle.call(appNavBarLinks, me.id);
+            AppComponents.htmlTable.render.apply(customerComp);
 
         }
     },{
         label: "Suppliers",
         id: "app.link.suppliers",
         handler: function(){
+            let me = this;
+
+            AppComponents.htmlToNavBar.changeStyle.call(appNavBarLinks, me.id);
+            AppComponents.htmlTable.render.apply(supplierComp);
+
+        }
+    },{
+        label: "Warehouse",
+        id: "app.link.warehouse",
+        handler: function(){
+            let me = this;
+
+            AppComponents.htmlToNavBar.changeStyle.call(appNavBarLinks, me.id);
+            AppComponents.htmlTable.render.apply(warehouseComp);
 
         }
     },{

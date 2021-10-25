@@ -1,7 +1,6 @@
 package com.cohort.ejb;
 
 import com.cohort.service.LoginUserBeanI;
-import com.cohort.dao.BaseDaoI;
 import com.cohort.model.Login;
 import com.cohort.model.LoginResponse;
 import com.cohort.model.UserType;
@@ -15,9 +14,6 @@ import java.util.Map;
 
 @Stateless
 public class LoginEjb implements LoginEjbI{
-
-    @Inject
-    private BaseDaoI baseDao;
 
     @Inject @Any
     private Instance<LoginUserBeanI> loginUserBeans;
