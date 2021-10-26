@@ -1,21 +1,29 @@
 // login form
 var itemsComp = {
-     url: "./item/list",
+     url: "./item",
      method: "GET",
      tableTitle: 'Inventory Items',
      renderTo: 'componentRender',
      columns: [{
         header: "Name",
         dataIndex: "name",
-        width: 47,
+        width: 25,
+    },{
+        header: "Category",
+        dataIndex: "categoryName",
+        width: 20
     },{
         header: "Purchase Price",
         dataIndex: "purchasePrice",
-        width: 25
+        width: 15
     },{
         header: "Sale Price",
         dataIndex: "salePrice",
-        width: 25
+        width: 15
+    },{
+        header: "Warehouse",
+        dataIndex: "warehouseName",
+        width: 20
     }],
     form: {
          formTitle: 'Add Item',
@@ -61,7 +69,7 @@ var itemsComp = {
         buttons: [{
             type: 'submit',
             method: "POST",
-            url: './item/save',
+            url: './item',
             value: 'Save',
             showMsg: 'showErrorMsg',
             id: 'item.submit',

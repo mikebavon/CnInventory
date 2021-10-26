@@ -7,5 +7,5 @@ import java.util.Map;
 public interface ItemEjbI {
     ResultWrapper save(Map<String, String[]> params);
 
-    ResultWrapper list();
+    ResultWrapper list(Map<String, String[]> params);
 }

@@ -68,10 +68,26 @@ public class ItemEjb implements ItemEjbI{
         return resultWrapper;
     }
 
-    public ResultWrapper list(){
+    public ResultWrapper list(Map<String, String[]> params){
+
+        Item itemFilter = new Item();
+        try {
+            BeanUtils.populate(itemFilter, params);
+
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+        String hql = "SELECT i FROM Item i WHERE i.id is not null";
+        if (itemFilter.getCategoryId() != 0)
+            hql += " AND i.categoryId=" + itemFilter.getCategoryId();
+
+        if (itemFilter.getWarehouseId() != 0)
+            hql += " AND i.warehouseId=" + itemFilter.getWarehouseId();
 
         ResultWrapper resultWrapper = new ResultWrapper();
-        resultWrapper.setList(em.createQuery("SELECT i FROM Item i", Item.class).getResultList());
+        resultWrapper.setList(em.createQuery(hql, Item.class)
+                .getResultList());
 
         return resultWrapper;
     }

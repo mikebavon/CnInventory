@@ -51,11 +51,17 @@ public class Item implements Serializable {
     @Formula("(category_id)")
     private int categoryId;
 
+    @Formula("(select c.name from inv_item_categories c where c.id=category_id)")
+    private String categoryName;
+
     @ManyToOne
     private Warehouse warehouse;
 
     @Formula("(warehouse_id)")
     private int warehouseId;
+
+    @Formula("(select w.name from inv_warehouses w where w.id=warehouse_id)")
+    private String warehouseName;
 
     public int getId() {
         return id;
@@ -137,6 +143,14 @@ public class Item implements Serializable {
         this.categoryId = categoryId;
     }
 
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     public Warehouse getWarehouse() {
         return warehouse;
     }
@@ -151,5 +165,13 @@ public class Item implements Serializable {
 
     public void setWarehouseId(int warehouseId) {
         this.warehouseId = warehouseId;
+    }
+
+    public String getWarehouseName() {
+        return warehouseName;
+    }
+
+    public void setWarehouseName(String warehouseName) {
+        this.warehouseName = warehouseName;
     }
 }

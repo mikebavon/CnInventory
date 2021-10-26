@@ -53,8 +53,6 @@ var AppComponents = {
 
             });
 
-            console.log(formToRender);
-
             formToRender += '<br/><br/>';
 
             //add buttons to form render
@@ -155,7 +153,7 @@ var AppComponents = {
 
             me.columns.forEach(col=>{
                 tableColGroup += '<col span="' + (col.span?col.span: 1) + '" style="'+ (col.width? 'width:' + col.width + '%;': '') + '">';
-                tableHeaders += '<th>' + col.header + '</th>';
+                tableHeaders += '<th>' + (col.link? '' : col.header) + '</th>';
 
             });
 
@@ -167,17 +165,32 @@ var AppComponents = {
             tableToRender += '<tbody>';
 
             //load page from html
+            var linkEventToAdd = [];
+
             var ajaxReq = new XMLHttpRequest();
             ajaxReq.onreadystatechange = function(){
                if (ajaxReq.readyState == XMLHttpRequest.DONE){
                 if (ajaxReq.status == 200){
                         let reqRes = eval('(' + ajaxReq.responseText + ')');
                         reqRes.list.forEach(row=>{
-                            tableToRender += '<tr><td><input type="checkbox" name="name1" />&nbsp;</td>';
+
+                            tableToRender += '<tr><td><input type="checkbox" name="' + row.id + '" />&nbsp;</td>';
 
                             me.columns.forEach(col=>{
-                                tableToRender += '<td>' + row[col.dataIndex] + '</td>';
+                                if (col.link){
+                                    let linkId = me.id + '_' + row[col.dataIndex] + '_' + row.id;
+                                    tableToRender += '<td><a href="#" id="' + linkId + '">' + col.linkLabel + '</a></td>';
+
+                                    linkEventToAdd.push({
+                                        hrefId: linkId,
+                                        hrefAction: col.linkHandler.bind(this, row[col.dataIndex])
+                                    });
+
+                                }else{
+                                    tableToRender += '<td>' + row[col.dataIndex] + '</td>';
+                                }
                             });
+
                             tableToRender += '</tr>';
 
                         });
@@ -186,7 +199,8 @@ var AppComponents = {
                }
             }
 
-            ajaxReq.open(me.method, me.url, false);
+            let ajaxReqUrl = me.url + (me.filterQuery? '?' + me.filterQuery : '')
+            ajaxReq.open(me.method, ajaxReqUrl, false);
             ajaxReq.send();
 
             tableToRender += '</tbody>'
@@ -194,6 +208,10 @@ var AppComponents = {
 
             me.buttons.forEach(btn=>{
                 document.getElementById(btn.id).addEventListener("click", btn.handler);
+            });
+
+            linkEventToAdd.forEach(linkEvent=>{
+                document.getElementById(linkEvent.hrefId).addEventListener("click", linkEvent.hrefAction);
             });
 
         }

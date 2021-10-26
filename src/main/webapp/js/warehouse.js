@@ -8,13 +8,18 @@ var warehouseComp = {
         dataIndex: "name",
         width: 37,
     },{
-        header: "Phone No",
-        dataIndex: "phoneNo",
+        header: "Location",
+        dataIndex: "location",
         width: 30,
     },{
-        header: "Address",
-        dataIndex: "address",
-        width: 30,
+        dataIndex: "id",
+        link: true,
+        linkLabel: 'View Items',
+        width: 15,
+        linkHandler: function(warehouseId){
+            itemsComp.filterQuery = '&warehouseId=' + warehouseId;
+            AppComponents.htmlTable.render.apply(itemsComp);
+        }
     }],
     form: {
          formTitle: 'Add Warehouse',

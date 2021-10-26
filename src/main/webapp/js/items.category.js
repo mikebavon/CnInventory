@@ -4,10 +4,20 @@ var itemsCatComp = {
      method: "GET",
      tableTitle: 'Inventory Items Category',
      renderTo: 'componentRender',
+     id: 'itemCategoryTableId',
      columns: [{
         header: "Name",
         dataIndex: "name",
-        width: 47,
+        width: 80,
+    },{
+        dataIndex: "id",
+        link: true,
+        linkLabel: 'View',
+        width: 15,
+        linkHandler: function(categoryId){
+            itemsComp.filterQuery = '&categoryId=' + categoryId;
+            AppComponents.htmlTable.render.apply(itemsComp);
+        }
     }],
     form: {
          formTitle: 'Add Items Category',
@@ -37,8 +47,13 @@ var itemsCatComp = {
         label: 'Add',
         id: 'item.category.add',
         handler: function(){
-            // login form
             AppComponents.htmlForm.render.call(itemsCatComp.form);
+        }
+    },{
+        label: 'View Items',
+        id: 'item.category.viewitems',
+        handler: function(){
+            AppComponents.htmlTable.render.apply(itemsComp);
         }
     }]
 };

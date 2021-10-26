@@ -1,6 +1,9 @@
 package com.cohort.action;
 
 
+import com.cohort.ejb.ItemEjbI;
+
+import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +19,10 @@ import java.io.IOException;
         @WebInitParam(name = "Page Name", value = "Item Catalog")
     }
 )
-public class ItemAction extends HttpServlet {
+public class ItemAction extends BaseServlet {
+
+    @EJB
+    private ItemEjbI itemEjb;
 
     /**
      * called on server/web container start up or on the first time a Servlet is created
@@ -33,8 +39,8 @@ public class ItemAction extends HttpServlet {
      * @throws IOException
      */
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/item/form");
-        requestDispatcher.include(req, res);
+        res.setContentType("application/json");
+        res.getWriter().print(jsonMapper.writeValueAsString(itemEjb.list(req.getParameterMap())));
 
     }
 
@@ -47,8 +53,8 @@ public class ItemAction extends HttpServlet {
      */
     @SuppressWarnings("rawtypes")
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/item/save");
-        requestDispatcher.forward(req, res);
+        res.setContentType("application/json");
+        res.getWriter().print(jsonMapper.writeValueAsString(itemEjb.save(req.getParameterMap())));
 
     }
 
