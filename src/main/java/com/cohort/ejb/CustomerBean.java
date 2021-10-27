@@ -1,9 +1,10 @@
 package com.cohort.ejb;
 
+import com.cohort.dao.CustomerDaoI;
+import com.cohort.dao.ModelListWrapper;
 import com.cohort.model.AuditTrail;
 import com.cohort.model.Customer;
-import com.cohort.model.ResultWrapper;
-import org.apache.commons.beanutils.BeanUtils;
+import com.cohort.util.AppException;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
@@ -11,7 +12,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
-import java.util.Map;
 
 @Stateless
 public class CustomerBean implements CustomerBeanI{
@@ -20,43 +20,30 @@ public class CustomerBean implements CustomerBeanI{
     private EntityManager em;
 
     @Inject
+    private CustomerDaoI customerDao;
+
+    @Inject
     private Event<AuditTrail> auditTrailEvent;
 
-    public ResultWrapper save(Map<String, String[]> params){
-        ResultWrapper resultWrapper = new ResultWrapper();
+    /**
+     * @see CustomerBeanI#save(Customer)
+     */
+    public Customer save(Customer customer) throws Exception{
+        if (customer == null)
+            throw new AppException("Invalid customer details!!");
 
-        Customer customer = new Customer();
-        try {
-            BeanUtils.populate(customer, params);
+        customer = customerDao.save(customer);
 
-        }catch (Exception ex){
-            resultWrapper.setMessage(ex.getMessage());
-            customer = null;
-
-        }
-
-        if (customer == null){
-            resultWrapper.setSuccess(false);
-            return resultWrapper;
-        }
-
-        if (customer.getName() == null) {
-            resultWrapper.setSuccess(false);
-            resultWrapper.setMessage("Name is required!");
-            return resultWrapper;
-        }
-
-        customer = em.merge(customer);
         auditTrailEvent.fire(new AuditTrail("Created Customer " + customer.getName() + " Id: " + customer.getId(), new Date()));
 
-        return resultWrapper;
+        return customer;
     }
 
-    public ResultWrapper list(){
-
-        ResultWrapper resultWrapper = new ResultWrapper();
-        resultWrapper.setList(em.createQuery("SELECT cust FROM Customer cust", Customer.class).getResultList());
-
-        return resultWrapper;
+    /**
+     * @see CustomerBeanI#list(Customer, int, int)
+     */
+    public ModelListWrapper<Customer> list(Customer filter, int start, int limit){
+        return customerDao.list(filter, start, limit);
     }
+
 }

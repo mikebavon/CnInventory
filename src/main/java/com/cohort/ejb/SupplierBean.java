@@ -1,9 +1,10 @@
 package com.cohort.ejb;
 
+import com.cohort.dao.ModelListWrapper;
+import com.cohort.dao.SupplierDaoI;
 import com.cohort.model.AuditTrail;
-import com.cohort.model.ResultWrapper;
 import com.cohort.model.Supplier;
-import org.apache.commons.beanutils.BeanUtils;
+import com.cohort.util.AppException;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
@@ -11,7 +12,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
-import java.util.Map;
 
 @Stateless
 public class SupplierBean implements SupplierBeanI{
@@ -20,44 +20,30 @@ public class SupplierBean implements SupplierBeanI{
     private EntityManager em;
 
     @Inject
+    private SupplierDaoI supplierDao;
+
+    @Inject
     private Event<AuditTrail> auditTrailEvent;
 
-    public ResultWrapper save(Map<String, String[]> params){
-        ResultWrapper resultWrapper = new ResultWrapper();
+    /**
+     * @see SupplierBeanI#save(Supplier)
+     */
+    public Supplier save(Supplier customer) throws Exception{
+        if (customer == null)
+            throw new AppException("Invalid supplier details!!");
 
-        Supplier supplier = new Supplier();
+        customer = supplierDao.save(customer);
 
-        try {
-            BeanUtils.populate(supplier, params);
+        auditTrailEvent.fire(new AuditTrail("Created supplier " + customer.getName() + " Id: " + customer.getId(), new Date()));
 
-        }catch (Exception ex){
-            resultWrapper.setMessage(ex.getMessage());
-            supplier = null;
-
-        }
-
-        if (supplier == null){
-            resultWrapper.setSuccess(false);
-            return resultWrapper;
-        }
-
-        if (supplier.getName() == null) {
-            resultWrapper.setSuccess(false);
-            resultWrapper.setMessage("Name is required!");
-            return resultWrapper;
-        }
-
-        supplier = em.merge(supplier);
-        auditTrailEvent.fire(new AuditTrail("Created Item Category " + supplier.getName() + " Id: " + supplier.getId(), new Date()));
-
-        return resultWrapper;
+        return customer;
     }
 
-    public ResultWrapper list(){
-
-        ResultWrapper resultWrapper = new ResultWrapper();
-        resultWrapper.setList(em.createQuery("SELECT s FROM Supplier s", Supplier.class).getResultList());
-
-        return resultWrapper;
+    /**
+     * @see SupplierBeanI#list(Supplier, int, int)
+     */
+    public ModelListWrapper<Supplier> list(Supplier filter, int start, int limit){
+        return supplierDao.list(filter, start, limit);
     }
+
 }

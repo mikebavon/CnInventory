@@ -2,12 +2,12 @@ package com.cohort.action;
 
 
 import com.cohort.ejb.ItemEjbI;
+import com.cohort.model.Item;
 
 import javax.ejb.EJB;
 import javax.servlet.*;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -24,6 +24,8 @@ public class ItemAction extends BaseServlet {
     @EJB
     private ItemEjbI itemEjb;
 
+    private Item item = new Item();
+
     /**
      * called on server/web container start up or on the first time a Servlet is created
      */
@@ -39,9 +41,8 @@ public class ItemAction extends BaseServlet {
      * @throws IOException
      */
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        res.setContentType("application/json");
-        res.getWriter().print(jsonMapper.writeValueAsString(itemEjb.list(req.getParameterMap())));
-
+        transform(item, req.getParameterMap());
+        handleResponse(res, itemEjb.list(item, 0, 0).getList());
     }
 
     /**
@@ -53,8 +54,15 @@ public class ItemAction extends BaseServlet {
      */
     @SuppressWarnings("rawtypes")
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        res.setContentType("application/json");
-        res.getWriter().print(jsonMapper.writeValueAsString(itemEjb.save(req.getParameterMap())));
+        try {
+            transform(item, req.getParameterMap());
+            itemEjb.save(item);
+
+            handleResponse(res);
+        }catch (Exception ex){
+            exceptionResponse(res, false, ex.getMessage());
+
+        }
 
     }
 

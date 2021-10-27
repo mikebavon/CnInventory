@@ -1,6 +1,7 @@
 package com.cohort.action;
 
 import com.cohort.ejb.ItemCategoryBeanI;
+import com.cohort.model.ItemCategory;
 
 import javax.ejb.EJB;
 import javax.servlet.*;
@@ -18,14 +19,24 @@ public class ItemCategoryAction extends BaseServlet {
     @EJB
     private ItemCategoryBeanI categoryBean;
 
+    private ItemCategory itemCategory  = new ItemCategory();
+
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        res.setContentType("application/json");
-        res.getWriter().print(jsonMapper.writeValueAsString(categoryBean.list()));
+        transform(itemCategory, req.getParameterMap());
+        handleResponse(res, categoryBean.list(itemCategory, 0, 0).getList());
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        res.setContentType("application/json");
-        res.getWriter().print(jsonMapper.writeValueAsString(categoryBean.save(req.getParameterMap())));
+        try {
+            transform(itemCategory, req.getParameterMap());
+            categoryBean.save(itemCategory);
+
+            handleResponse(res);
+
+        }catch (Exception ex){
+            exceptionResponse(res, false, ex.getMessage());
+
+        }
     }
 
 }

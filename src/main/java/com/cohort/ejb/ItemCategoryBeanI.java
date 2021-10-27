@@ -1,12 +1,24 @@
 package com.cohort.ejb;
 
-import com.cohort.model.ResultWrapper;
-
-import java.util.Map;
+import com.cohort.dao.ModelListWrapper;
+import com.cohort.model.ItemCategory;
 
 public interface ItemCategoryBeanI {
 
-    ResultWrapper save(Map<String, String[]> params);
+    /**
+     *
+     * @param itemCategory
+     * @return
+     * @throws Exception
+     */
+    ItemCategory save(ItemCategory itemCategory) throws Exception;
 
-    ResultWrapper list();
+    /**
+     *
+     * @param filter
+     * @param start
+     * @param limit
+     * @return
+     */
+    ModelListWrapper<ItemCategory> list(ItemCategory filter, int start, int limit);
 }

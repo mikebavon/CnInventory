@@ -12,7 +12,7 @@ var itemsCatComp = {
     },{
         dataIndex: "id",
         link: true,
-        linkLabel: 'View',
+        linkLabel: 'View Items',
         width: 15,
         linkHandler: function(categoryId){
             itemsComp.filterQuery = '&categoryId=' + categoryId;

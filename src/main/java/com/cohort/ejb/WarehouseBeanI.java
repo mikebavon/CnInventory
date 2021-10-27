@@ -1,12 +1,24 @@
 package com.cohort.ejb;
 
-import com.cohort.model.ResultWrapper;
-
-import java.util.Map;
+import com.cohort.dao.ModelListWrapper;
+import com.cohort.model.Warehouse;
 
 public interface WarehouseBeanI {
 
-    ResultWrapper save(Map<String, String[]> params);
+    /**
+     *
+     * @param warehouse
+     * @return
+     * @throws Exception
+     */
+    Warehouse save(Warehouse warehouse) throws Exception;
 
-    ResultWrapper list();
+    /**
+     *
+     * @param filter
+     * @param start
+     * @param limit
+     * @return
+     */
+    ModelListWrapper<Warehouse> list(Warehouse filter, int start, int limit);
 }

@@ -200,6 +200,7 @@ var AppComponents = {
             }
 
             let ajaxReqUrl = me.url + (me.filterQuery? '?' + me.filterQuery : '')
+            console.log(ajaxReqUrl);
             ajaxReq.open(me.method, ajaxReqUrl, false);
             ajaxReq.send();
 

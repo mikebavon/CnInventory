@@ -1,6 +1,7 @@
 package com.cohort.action;
 
 import com.cohort.ejb.WarehouseBeanI;
+import com.cohort.model.Warehouse;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -18,14 +19,24 @@ public class WarehouseAction extends BaseServlet {
     @EJB
     private WarehouseBeanI warehouseBean;
 
+    private Warehouse warehouse  = new Warehouse();
+
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        res.setContentType("application/json");
-        res.getWriter().print(jsonMapper.writeValueAsString(warehouseBean.list()));
+        transform(warehouse, req.getParameterMap());
+        handleResponse(res, warehouseBean.list(warehouse, 0, 0).getList());
     }
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        res.setContentType("application/json");
-        res.getWriter().print(jsonMapper.writeValueAsString(warehouseBean.save(req.getParameterMap())));
+        try {
+            transform(warehouse, req.getParameterMap());
+            warehouseBean.save(warehouse);
+
+            handleResponse(res);
+
+        }catch (Exception ex){
+            exceptionResponse(res, false, ex.getMessage());
+
+        }
     }
 
 }

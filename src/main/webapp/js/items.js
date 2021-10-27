@@ -85,7 +85,6 @@ var itemsComp = {
         label: 'Add',
         id: 'item.add',
         handler: function(){
-            // login form
             AppComponents.htmlForm.render.call(itemsComp.form);
         }
     }]

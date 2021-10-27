@@ -1,9 +1,10 @@
 package com.cohort.ejb;
 
+import com.cohort.dao.ModelListWrapper;
+import com.cohort.dao.WarehouseDaoI;
 import com.cohort.model.AuditTrail;
-import com.cohort.model.ResultWrapper;
 import com.cohort.model.Warehouse;
-import org.apache.commons.beanutils.BeanUtils;
+import com.cohort.util.AppException;
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
@@ -11,7 +12,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
-import java.util.Map;
 
 @Stateless
 public class WarehouseBean implements WarehouseBeanI{
@@ -20,43 +20,30 @@ public class WarehouseBean implements WarehouseBeanI{
     private EntityManager em;
 
     @Inject
+    private WarehouseDaoI warehouseDao;
+
+    @Inject
     private Event<AuditTrail> auditTrailEvent;
 
-    public ResultWrapper save(Map<String, String[]> params){
-        ResultWrapper resultWrapper = new ResultWrapper();
+    /**
+     * @see WarehouseBeanI#save(Warehouse)
+     */
+    public Warehouse save(Warehouse warehouse) throws Exception{
+        if (warehouse == null)
+            throw new AppException("Invalid warehouse details!!");
 
-        Warehouse warehouse = new Warehouse();
-        try {
-            BeanUtils.populate(warehouse, params);
+        warehouse = warehouseDao.save(warehouse);
 
-        }catch (Exception ex){
-            resultWrapper.setMessage(ex.getMessage());
-            warehouse = null;
+        auditTrailEvent.fire(new AuditTrail("Created Warehouse " + warehouse.getName() + " Id: " + warehouse.getId(), new Date()));
 
-        }
-
-        if (warehouse == null){
-            resultWrapper.setSuccess(false);
-            return resultWrapper;
-        }
-
-        if (warehouse.getName() == null) {
-            resultWrapper.setSuccess(false);
-            resultWrapper.setMessage("Name is required!");
-            return resultWrapper;
-        }
-
-        warehouse = em.merge(warehouse);
-        auditTrailEvent.fire(new AuditTrail("Created Item Category " + warehouse.getName() + " Id: " + warehouse.getId(), new Date()));
-
-        return resultWrapper;
+        return warehouse;
     }
 
-    public ResultWrapper list(){
-
-        ResultWrapper resultWrapper = new ResultWrapper();
-        resultWrapper.setList(em.createQuery("SELECT w FROM Warehouse w", Warehouse.class).getResultList());
-
-        return resultWrapper;
+    /**
+     * @see WarehouseBeanI#list(Warehouse, int, int)
+     */
+    public ModelListWrapper<Warehouse> list(Warehouse filter, int start, int limit){
+        return warehouseDao.list(filter, start, limit);
     }
+
 }

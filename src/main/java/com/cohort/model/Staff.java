@@ -3,8 +3,11 @@ package com.cohort.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "inv_suppliers")
-public class Supplier extends BaseEntity {
+@Table(name = "inv_staff")
+public class Staff extends BaseEntity {
+
+    @Column(name = "staff_no")
+    private String staffNo;
 
     @Column
     private String name;
@@ -12,9 +15,13 @@ public class Supplier extends BaseEntity {
     @Embedded
     private Address address;
 
-    @Column
-    @Enumerated(EnumType.STRING)
-    private ClientType supplierType;
+    public String getStaffNo() {
+        return staffNo;
+    }
+
+    public void setStaffNo(String staffNo) {
+        this.staffNo = staffNo;
+    }
 
     public String getName() {
         return name;
@@ -30,13 +37,5 @@ public class Supplier extends BaseEntity {
 
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public ClientType getSupplierType() {
-        return supplierType;
-    }
-
-    public void setSupplierType(ClientType supplierType) {
-        this.supplierType = supplierType;
     }
 }

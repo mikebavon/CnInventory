@@ -1,32 +1,20 @@
 package com.cohort.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "inv_customers")
-public class Customer implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+public class Customer extends BaseEntity {
 
     @Column
     private String name;
 
-    @Column(name = "phone_no")
-    private String phoneNo;
+    @Embedded
+    private Address address;
 
     @Column
-    private String address;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    @Enumerated(EnumType.STRING)
+    private ClientType customerType;
 
     public String getName() {
         return name;
@@ -36,19 +24,19 @@ public class Customer implements Serializable {
         this.name = name;
     }
 
-    public String getPhoneNo() {
-        return phoneNo;
-    }
-
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
-    }
-
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public ClientType getCustomerType() {
+        return customerType;
+    }
+
+    public void setCustomerType(ClientType customerType) {
+        this.customerType = customerType;
     }
 }

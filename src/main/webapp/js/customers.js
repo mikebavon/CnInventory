@@ -9,11 +9,11 @@ var customerComp = {
         width: 37,
     },{
         header: "Phone No",
-        dataIndex: "phoneNo",
+        dataIndex: "address.phoneNo",
         width: 30,
     },{
         header: "Address",
-        dataIndex: "address",
+        dataIndex: "address.postalAddress",
         width: 30,
     }],
     form: {
@@ -26,14 +26,14 @@ var customerComp = {
             required: true
         },{
             label: "Phone No",
-            name: "phoneNo",
-            id: "customer.phoneNo",
+            name: "address.phoneNo",
+            id: "customer.address.phoneNo",
             type: "text",
             required: true
         },{
             label: "Address",
-            name: "address",
-            id: "customer.address",
+            name: "address.postalCode",
+            id: "customer.address.postalCode",
             type: "text",
             required: true
         }],

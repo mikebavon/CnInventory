@@ -29,8 +29,7 @@ public class LoginAction extends BaseServlet {
         LoginResponse loginResponse = loginEjb.validate(req.getParameterMap());
         session.setAttribute("loginUserData", loginResponse);
 
-        res.setContentType("application/json");
-        res.getWriter().print(new ObjectMapper().writeValueAsString(loginResponse));
+        handleResponse(res, loginResponse);
 
     }
 
@@ -39,14 +38,10 @@ public class LoginAction extends BaseServlet {
         HttpSession session = req.getSession();
         List<LoginResponse> loginResponse = new ArrayList<LoginResponse>();
 
-
         if (session.getAttribute("loginUserData") != null)
             loginResponse.add((LoginResponse) session.getAttribute("loginUserData"));
 
-        resultWrapper.setList(loginResponse);
-
-        res.setContentType("application/json");
-        res.getWriter().print(jsonMapper.writeValueAsString(resultWrapper));
+        handleResponse(res, loginResponse);
 
     }
 

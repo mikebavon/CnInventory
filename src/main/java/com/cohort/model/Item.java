@@ -3,13 +3,12 @@ package com.cohort.model;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @Table(name = "inv_items")
-public class Item implements Serializable {
+public class Item extends BaseEntity {
 
     public Item(){}
 
@@ -18,10 +17,6 @@ public class Item implements Serializable {
         this.purchasePrice = purchasePrice;
         this.salePrice = salePrice;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
 
     @Column
     private String name;
@@ -32,7 +27,7 @@ public class Item implements Serializable {
     @Column(name = "sale_price")
     private BigDecimal salePrice;
 
-    @Column
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
 
     @Column(name = "date_created")
@@ -62,14 +57,6 @@ public class Item implements Serializable {
 
     @Formula("(select w.name from inv_warehouses w where w.id=warehouse_id)")
     private String warehouseName;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

@@ -1,11 +1,14 @@
 package com.cohort.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "inv_item_categories")
-public class ItemCategory implements Serializable {
+public class ItemCategory extends BaseEntity {
 
     public ItemCategory(){}
 
@@ -13,20 +16,11 @@ public class ItemCategory implements Serializable {
         this.name = name;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
     @Column
     private String name;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    private List<Item> items = new ArrayList<Item>();
 
     public String getName() {
         return name;
@@ -34,5 +28,14 @@ public class ItemCategory implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @JsonIgnore
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }

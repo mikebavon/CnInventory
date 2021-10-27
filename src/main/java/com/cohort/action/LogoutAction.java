@@ -24,11 +24,7 @@ public class LogoutAction extends BaseServlet {
         List<LoginResponse> loginResponse = new ArrayList<LoginResponse>();
         loginResponse.add(new LoginResponse());
 
-        resultWrapper.setList(loginResponse);
-
-        res.setContentType("application/json");
-        res.getWriter().print(jsonMapper.writeValueAsString(resultWrapper));
-
+        handleResponse(res, loginResponse);
     }
 
 }

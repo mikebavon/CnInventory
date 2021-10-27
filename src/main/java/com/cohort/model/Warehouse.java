@@ -1,15 +1,10 @@
 package com.cohort.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name ="inv_warehouses")
-public class Warehouse implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+public class Warehouse extends BaseEntity {
 
     @Column
     private String name;
@@ -19,14 +14,6 @@ public class Warehouse implements Serializable {
 
     @Column
     private String notes;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

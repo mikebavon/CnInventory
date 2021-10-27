@@ -1,12 +1,25 @@
 package com.cohort.ejb;
 
-import com.cohort.model.ResultWrapper;
-
-import java.util.Map;
+import com.cohort.dao.ModelListWrapper;
+import com.cohort.model.Customer;
 
 public interface CustomerBeanI {
 
-    ResultWrapper save(Map<String, String[]> params);
+    /**
+     *
+     * @param customer
+     * @return
+     * @throws Exception
+     */
+    Customer save(Customer customer) throws Exception;
 
-    ResultWrapper list();
+    /**
+     *
+     * @param filter
+     * @param start
+     * @param limit
+     * @return
+     */
+    ModelListWrapper<Customer> list(Customer filter, int start, int limit);
+
 }
