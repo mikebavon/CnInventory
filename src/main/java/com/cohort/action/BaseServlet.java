@@ -36,7 +36,7 @@ public abstract class BaseServlet extends HttpServlet {
     public void handleResponse(HttpServletResponse res, Object obj) throws IOException {
         res.setContentType("application/json");
         if (obj instanceof Collection<?>){
-            resultWrapper.setList((List) obj);
+            resultWrapper.setList((List<?>) obj);
             res.getWriter().print(jsonMapper.writeValueAsString(resultWrapper));
         }else
             res.getWriter().print(jsonMapper.writeValueAsString(obj));

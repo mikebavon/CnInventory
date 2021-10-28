@@ -1,5 +1,6 @@
 package com.cohort.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
@@ -98,6 +99,7 @@ public class Item extends BaseEntity {
         this.dateCreated = dateCreated;
     }
 
+    @JsonIgnore
     public Date getFromDate() {
         return fromDate;
     }
@@ -106,6 +108,7 @@ public class Item extends BaseEntity {
         this.fromDate = fromDate;
     }
 
+    @JsonIgnore
     public Date getToDate() {
         return toDate;
     }
